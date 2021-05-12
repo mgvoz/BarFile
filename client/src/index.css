@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+:root {
+	--primary-font: 'Permanent Marker', cursive;
+	--primary-gray: #3a4750;
+	--primary-orange: #ea9215;
+}
+
+body {
+	font-family: var(--primary-font);
+}
+
+/*FOOTER*/
+.footer {
+	background-color: var(--primary-light);
+	height: 4rem;
+	bottom: 0;
+	width: 100%;
+	position: relative;
+	margin-top: 2rem;
+}
+
+.footer > p {
+	text-align: center;
+	padding: 1.4rem 0;
+	font-family: var(--primary-font);
+	color: #7c7c7d;
+}
+
+/*HOME/SIGN-IN*/
+
+#sign-in-form {
+	font-family: var(--primary-font);
+	color: var(--primary-gray);
+	margin-top: 5rem;
+}
+
+.sign-in-header {
+	padding-bottom: 2rem;
+}
+
+.sign-in-container {
+	border: var(--primary-orange) solid 8px;
+	max-width: 90%;
+	margin-top: 4rem;
+	padding: 30px;
+}
+
+/*DASHBOARD*/
+.nav-section {
+	max-width: 30%;
+	background-color: var(--primary-gray);
+	height: 100%;
+}
