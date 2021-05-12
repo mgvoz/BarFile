@@ -1,13 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@300&family=Permanent+Marker&display=swap');
 
 :root {
 	--primary-font: 'Permanent Marker', cursive;
+	--secondary-font: 'Newsreader', serif;
 	--primary-gray: #3a4750;
 	--primary-orange: #ea9215;
 }
 
-body {
+/*NAVBAR*/
+.logo {
+	height: 200px;
+	width: 90%;
+	margin-bottom: 1.5rem;
+}
+
+.nav-container {
+	background-color: var(--primary-gray);
+	height: 100vh;
+}
+
+hr.nav-line {
+	border: solid 2px #eeeeed;
+	width: 100%;
+}
+
+.nav-name {
+	color: #eeeeed;
 	font-family: var(--primary-font);
+	font-size: 30px;
+}
+
+ul {
+	list-style: none;
+}
+
+.logout-button {
+	width: 80%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	margin-top: 70%;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+#nav-item {
+	color: #eeeeed;
+	font-size: 20px;
+	font-family: var(--secondary-font);
 }
 
 /*FOOTER*/
@@ -46,9 +88,69 @@ body {
 	padding: 30px;
 }
 
+.login-heading {
+	margin-bottom: 1.5rem;
+}
+
+.form-group > label {
+	font-size: 16px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+	text-align: left !important;
+}
+
+#emailHelp {
+	margin-top: 0px;
+}
+
+.btn {
+	background-color: var(--primary-orange) !important;
+	margin-top: 1.5rem;
+	color: var(--primary-gray);
+	border: solid 2px var(--primary-gray) !important;
+}
+
 /*DASHBOARD*/
 .nav-section {
-	max-width: 30%;
-	background-color: var(--primary-gray);
-	height: 100%;
+	margin-left: 0%;
+}
+
+.dash-heading {
+	font-family: var(--primary-font);
+	color: var(--primary-gray);
+	margin-top: 4.6rem;
+	margin-left: 2rem;
+	font-size: 70px;
+}
+
+.dash-subheading {
+	font-family: var(--primary-font);
+	color: var(--primary-gray);
+	margin-left: 2rem;
+	margin-top: 2rem;
+}
+
+hr.dash-line {
+	border: solid 2px var(--primary-orange);
+	width: 100%;
+}
+
+.dash-data {
+	height: 200px;
+	margin-left: 2rem;
+}
+
+/*INVENTORY*/
+
+.video-view {
+	height: 480px;
+	width: 640px;
+}
+
+.barcode-p {
+	font-family: var(--secondary-font);
+	font-size: 25px;
+	text-align: center;
+	margin-top: 1.5rem;
+	margin-bottom: 0.5rem;
 }

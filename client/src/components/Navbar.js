@@ -34,8 +34,53 @@ function Navbar() {
 	}, [location]);
 
 	return (
-		<div>
-			<div></div>
+		<div className='nav-container'>
+			<ul className=''>
+				<li>
+					<a href='/dashboard'>
+						<img className='logo' src={logo} alt='BarFile logo' />
+					</a>
+
+					<p className='nav-name'>{user?.result?.name}</p>
+				</li>
+				<hr className='nav-line' />
+				<li>
+					<Link
+						to='/dashboard'
+						id='nav-item'
+						className='nav-item nav-link'
+					>
+						Dashboard
+					</Link>
+				</li>
+				<li>
+					<Link
+						to='/inventory'
+						id='nav-item'
+						className='nav-item nav-link'
+					>
+						Take Inventory
+					</Link>
+				</li>
+				<li>
+					<Link
+						to='/settings'
+						id='nav-item'
+						className='nav-item nav-link'
+					>
+						Settings
+					</Link>
+				</li>
+			</ul>
+			<center>
+				<button
+					className='logout-button'
+					type='submit'
+					onClick={logout}
+				>
+					Logout
+				</button>
+			</center>
 		</div>
 	);
 }

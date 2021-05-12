@@ -63,10 +63,10 @@ function Home() {
 	return (
 		<div className='home-container'>
 			<div className='row'>
-				<div className='col-lg'>
+				<div className='col-8'>
 					<img src={logo} alt='BarFile logo' />
 				</div>
-				<div id='sign-in-form' className='col-sm'>
+				<div id='sign-in-form' className='col-4'>
 					<center>
 						<h1 className='sign-in-header'>Welcome to BarFile</h1>
 						<h3>
@@ -148,7 +148,7 @@ function Home() {
 										<center>
 											<button
 												type='submit'
-												className='btn btn-primary'
+												className='btn'
 											>
 												Create Account
 											</button>
@@ -158,7 +158,7 @@ function Home() {
 												clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
 												render={(renderProps) => (
 													<button
-														className='btn btn-primary'
+														className='btn'
 														onClick={
 															renderProps.onClick
 														}
@@ -175,7 +175,7 @@ function Home() {
 											/>
 										</center>
 										<button
-											className='btn btn-primary'
+											className='btn'
 											onClick={switchMode}
 										>
 											Already have an account? Sign in
@@ -220,7 +220,7 @@ function Home() {
 											<button
 												onClick={handleSubmit}
 												type='submit'
-												className='btn btn-primary'
+												className='btn'
 											>
 												Submit
 											</button>
@@ -230,7 +230,7 @@ function Home() {
 												clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
 												render={(renderProps) => (
 													<button
-														className='btn btn-primary'
+														className='btn'
 														onClick={
 															renderProps.onClick
 														}
@@ -249,7 +249,7 @@ function Home() {
 										<center>
 											<div className='login-links'>
 												<button
-													className='btn btn-primary'
+													className='btn'
 													onClick={switchMode}
 												>
 													Click here to create an
