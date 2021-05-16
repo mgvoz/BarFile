@@ -8,17 +8,17 @@ import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
 import Inventory from './components/Inventory';
 import Settings from './components/Settings';
+import { getSettings } from './actions/settings';
 
 function App() {
-	const user = JSON.parse(localStorage.getItem('profile'));
 	const dispatch = useDispatch();
-	//const rubrics = useSelector((state) => state.rubrics);
+	const settings = useSelector((state) => state.settings);
 
-	//const [currentRubricId, setCurrentRubricId] = useState(0);
+	const [currentSettingId, setCurrentSettingId] = useState(0);
 
-	/*useEffect(() => {
-		dispatch(getRubrics());
-	}, [currentRubricId, dispatch]);*/
+	useEffect(() => {
+		dispatch(getSettings());
+	}, [currentSettingId, dispatch]);
 
 	return (
 		<>
@@ -34,7 +34,11 @@ function App() {
 						<Inventory />
 					</Route>
 					<Route exact path='/settings'>
-						<Settings />
+						<Settings
+							settings={settings}
+							currentSettingId={currentSettingId}
+							setCurrentSettingId={setCurrentSettingId}
+						/>
 					</Route>
 				</Switch>
 				<Footer />

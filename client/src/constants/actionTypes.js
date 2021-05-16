@@ -1,2 +1,8 @@
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
+
+export const FETCH_ALL_SETTINGS = 'FETCH_ALL_SETTINGS';
+export const FETCH_ONE_SETTING = 'FETCH_ONE_SETTING';
+export const CREATE_SETTINGS = 'CREATE_SETTINGS';
+export const EDIT_SETTINGS = 'EDIT_SETTINGS';
+export const DELETE_SETTING = 'DELETE_SETTING';

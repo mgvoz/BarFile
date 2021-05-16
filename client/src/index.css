@@ -15,6 +15,15 @@
 	margin-bottom: 1.5rem;
 }
 
+.mlogo {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.nav-container-m {
+	background-color: var(--primary-gray);
+}
+
 .nav-container {
 	background-color: var(--primary-gray);
 	height: 100vh;
@@ -29,6 +38,13 @@ hr.nav-line {
 	color: #eeeeed;
 	font-family: var(--primary-font);
 	font-size: 30px;
+}
+
+.nav-name-m {
+	color: #eeeeed;
+	font-family: var(--primary-font);
+	font-size: 20px;
+	margin-left: 10%;
 }
 
 ul {
@@ -46,10 +62,38 @@ ul {
 	letter-spacing: 2px;
 }
 
+.logout-button-m {
+	width: 80%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	margin-top: 10px;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
 #nav-item {
 	color: #eeeeed;
 	font-size: 20px;
 	font-family: var(--secondary-font);
+}
+
+.navbar-toggler {
+	background-color: #eeeeed !important;
+	margin-bottom: 20px;
+}
+
+#nav-bars {
+	margin-top: 20%;
+	color: var(--primary-orange);
+}
+
+#nav-item-m {
+	font-family: var(--secondary-font);
+	color: #eeeeed;
+	margin-left: 8%;
+	font-size: 20px;
 }
 
 /*FOOTER*/
@@ -110,9 +154,27 @@ ul {
 	border: solid 2px var(--primary-gray) !important;
 }
 
+.home-logo {
+	max-width: 100%;
+}
+
 /*DASHBOARD*/
 .nav-section {
 	margin-left: 0%;
+}
+
+.dash-container-m {
+	max-width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dash-heading-m {
+	font-family: var(--primary-font);
+	color: var(--primary-gray);
+	margin-top: 30px;
+	margin-left: 10px;
+	font-size: 50px;
 }
 
 .dash-heading {
@@ -126,11 +188,24 @@ ul {
 .dash-subheading {
 	font-family: var(--primary-font);
 	color: var(--primary-gray);
+	text-align: left !important;
 	margin-left: 2rem;
 	margin-top: 2rem;
 }
 
+.dash-subheading-m {
+	font-family: var(--primary-font);
+	color: var(--primary-gray);
+	margin-left: 10px;
+	margin-top: 2rem;
+}
+
 hr.dash-line {
+	border: solid 2px var(--primary-orange);
+	width: 100%;
+}
+
+hr.dash-line-m {
 	border: solid 2px var(--primary-orange);
 	width: 100%;
 }
@@ -140,11 +215,22 @@ hr.dash-line {
 	margin-left: 2rem;
 }
 
+.dash-data-m {
+	height: 200px;
+	margin-left: 10px;
+}
+
 /*INVENTORY*/
 
+.inventory-container-m {
+	max-width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .video-view {
-	height: 480px;
-	width: 640px;
+	height: 150px;
+	width: 300px;
 }
 
 .barcode-p {
@@ -153,4 +239,81 @@ hr.dash-line {
 	text-align: center;
 	margin-top: 1.5rem;
 	margin-bottom: 0.5rem;
+}
+
+.pic-btn {
+	max-width: 30%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+	margin-top: 1.5rem;
+}
+
+.pic-btn-m {
+	width: 80%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+.set-amt {
+	margin-top: 2rem;
+}
+
+.set-amt-m {
+	margin-top: 20px;
+}
+
+.btl-img {
+	max-width: 50%;
+	height: 100px;
+	margin-top: 20px;
+}
+
+/*SETTINGS*/
+
+.take-inventory {
+	font-family: var(--secondary-font);
+	max-width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.settings-button-desktop {
+	width: 30%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+.settings-button {
+	width: 80%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+.setting-subheading {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+#settings-textarea {
+	margin-bottom: 20px;
+}
+
+.threshold-input {
+	margin-right: 5px;
 }
