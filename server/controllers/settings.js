@@ -21,10 +21,8 @@ export const getOneSetting = async (req, res) => {
 };
 
 export const createSettings = async (req, res) => {
-	const setting = req.body;
-	const newSetting = new Setting({
-		setting,
-	});
+	const setting = req.body.settingData;
+	const newSetting = new Setting({ ...setting });
 	try {
 		await newSetting.save();
 		res.status(201).json(newSetting);
@@ -34,6 +32,7 @@ export const createSettings = async (req, res) => {
 };
 
 export const editSettings = async (req, res) => {
+	console.log(req.body);
 	const { id } = req.params;
 	const {
 		nameOfUser,

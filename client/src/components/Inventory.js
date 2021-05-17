@@ -13,10 +13,13 @@ function Inventory() {
 		navigator.mediaDevices
 			.getUserMedia({ video: { facingMode: 'environment' } })
 			.then((stream) => {
-				video.srcObject = stream;
+				document.getElementById('video').srcObject = stream;
 			})
 			.catch((error) => console.log(error));
 	};
+
+	//try to get it to detect from stream or save pic then detect
+
 	const takePic = () => {
 		var context = canvas.getContext('2d');
 		context.drawImage(video, 0, 0, 190, 150);
@@ -45,8 +48,6 @@ function Inventory() {
 		}
 	};
 
-	getVideoStream();
-
 	return (
 		<>
 			{w > 480 ? (
@@ -66,6 +67,7 @@ function Inventory() {
 										id='video'
 										className='video-view'
 										autoPlay
+										onCanPlay={getVideoStream()}
 									>
 										Video stream not available.
 									</video>
@@ -102,6 +104,7 @@ function Inventory() {
 									id='video'
 									className='video-view'
 									autoPlay
+									onCanPlay={getVideoStream()}
 								>
 									Video stream not available.
 								</video>

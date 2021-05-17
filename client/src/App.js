@@ -34,11 +34,7 @@ function App() {
 						<Inventory />
 					</Route>
 					<Route exact path='/settings'>
-						<Settings
-							settings={settings}
-							currentSettingId={currentSettingId}
-							setCurrentSettingId={setCurrentSettingId}
-						/>
+						<Settings settings={settings} />
 					</Route>
 				</Switch>
 				<Footer />
