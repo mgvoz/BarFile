@@ -28,7 +28,11 @@ function Home() {
 		if (isSignup) {
 			dispatch(signup(userData, history));
 		} else {
-			dispatch(signin(userData, history));
+			try {
+				dispatch(signin(userData, history));
+			} catch (err) {
+				alert('Username or password incorrect.');
+			}
 		}
 	};
 
@@ -165,7 +169,7 @@ function Home() {
 												</center>
 												<center>
 													<GoogleLogin
-														clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
+														clientId='976614262105-gqgkb1454iahaef5ctvag321ahlpm82r.apps.googleusercontent.com'
 														render={(
 															renderProps,
 														) => (
@@ -245,7 +249,7 @@ function Home() {
 												</center>
 												<center>
 													<GoogleLogin
-														clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
+														clientId='976614262105-gqgkb1454iahaef5ctvag321ahlpm82r.apps.googleusercontent.com'
 														render={(
 															renderProps,
 														) => (
@@ -384,7 +388,7 @@ function Home() {
 											</center>
 											<center>
 												<GoogleLogin
-													clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
+													clientId='976614262105-gqgkb1454iahaef5ctvag321ahlpm82r.apps.googleusercontent.com'
 													render={(renderProps) => (
 														<button
 															className='btn'
@@ -458,7 +462,7 @@ function Home() {
 											</center>
 											<center>
 												<GoogleLogin
-													clientId='1020971190397-d0u2aljl0f36bb8e4ietagmobrc64mbm.apps.googleusercontent.com'
+													clientId='976614262105-gqgkb1454iahaef5ctvag321ahlpm82r.apps.googleusercontent.com'
 													render={(renderProps) => (
 														<button
 															className='btn'

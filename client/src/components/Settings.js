@@ -28,20 +28,29 @@ function Settings({ settings }) {
 		creator: user?.result?.googleId || user?.result?._id,
 		createdAt: new Date().toDateString(),
 		distributers:
-			thisUsersSettings.length > 0
-				? thisUsersSettings[0].distributers
-				: [],
-		categories:
-			thisUsersSettings.length > 0 ? thisUsersSettings[0].categories : [],
-		threshold:
-			thisUsersSettings.length > 0 ? thisUsersSettings[0].threshold : '',
+			document.getElementsByName('distributers')[0]?.computedName,
+		categories: document.getElementsByName('categories')[0]?.computedName,
+		threshold: document.getElementsByName('threshold')[0]?.computedName,
 	});
 
-	console.log(thisUsersSettings);
-	console.log(settingData);
+	window.onload = () => {
+		setSettingData({
+			nameOfUser: user?.result?.name,
+			creator: user?.result?.googleId || user?.result?._id,
+			createdAt: new Date().toDateString(),
+			distributers:
+				document.getElementsByName('distributers')[0]?.computedName ||
+				thisUsersSettings[0]?.distributers,
+			categories:
+				document.getElementsByName('categories')[0]?.computedName ||
+				thisUsersSettings[0]?.categories,
+			threshold:
+				document.getElementsByName('threshold')[0]?.computedName ||
+				thisUsersSettings[0]?.threshold,
+		});
+	};
 
 	//save user setting input
-	//MAKE IT SO ONLY 1 CAN BE UPDATED AND KEEP THE REST THE SAME
 	const saveSettings = () => {
 		if (thisUsersSettings.length > 0) {
 			dispatch(
@@ -67,6 +76,7 @@ function Settings({ settings }) {
 		if (thisUsersSettings.length > 0) {
 			dispatch(deleteSetting(thisUsersSettings[0]?._id));
 			alert('Settings cleared!');
+			window.location.reload();
 		} else if (thisUsersSettings.length === 0) {
 			alert('No settings created yet.');
 		}
@@ -108,12 +118,6 @@ function Settings({ settings }) {
 												distributers: e.target.value,
 											})
 										}
-										placeholder={
-											thisUsersSettings.length > 0
-												? thisUsersSettings[0]
-														.distributers
-												: null
-										}
 									/>
 									<br />
 									<label htmlFor='threshold'>
@@ -135,11 +139,6 @@ function Settings({ settings }) {
 												threshold: e.target.value,
 											})
 										}
-										placeholder={
-											thisUsersSettings.length > 0
-												? thisUsersSettings[0].threshold
-												: null
-										}
 									/>
 									%
 									<br />
@@ -160,12 +159,6 @@ function Settings({ settings }) {
 												...settingData,
 												categories: e.target.value,
 											})
-										}
-										placeholder={
-											thisUsersSettings.length > 0
-												? thisUsersSettings[0]
-														.categories
-												: null
 										}
 									></textarea>
 									<br />
@@ -219,11 +212,6 @@ function Settings({ settings }) {
 											distributers: e.target.value,
 										})
 									}
-									placeholder={
-										thisUsersSettings.length > 0
-											? thisUsersSettings[0].distributers
-											: null
-									}
 								/>
 								<br />
 								<label htmlFor='threshold'>
@@ -245,11 +233,6 @@ function Settings({ settings }) {
 											threshold: e.target.value,
 										})
 									}
-									placeholder={
-										thisUsersSettings.length > 0
-											? thisUsersSettings[0].threshold
-											: null
-									}
 								/>
 								%
 								<br />
@@ -270,11 +253,6 @@ function Settings({ settings }) {
 											...settingData,
 											categories: e.target.value,
 										})
-									}
-									placeholder={
-										thisUsersSettings.length > 0
-											? thisUsersSettings[0].categories
-											: null
 									}
 								></textarea>
 								<br />

@@ -32,7 +32,6 @@ export const createSettings = async (req, res) => {
 };
 
 export const editSettings = async (req, res) => {
-	console.log(req.body);
 	const { id } = req.params;
 	const {
 		nameOfUser,
