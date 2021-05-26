@@ -11,7 +11,7 @@ function Inventory() {
 
 	const getVideoStream = () => {
 		navigator.mediaDevices
-			.getUserMedia({ video: { facingMode: 'environment' } })
+			.getUserMedia({ video: true /*{ facingMode: 'environment' }*/ })
 			.then((stream) => {
 				document.getElementById('video').srcObject = stream;
 			})
@@ -20,44 +20,54 @@ function Inventory() {
 
 	//try to get it to detect from stream or save pic then detect
 
-	const takePic = () => {
+	const takePic = async () => {
 		var context = canvas.getContext('2d');
-		context.drawImage(video, 0, 0, 190, 150);
-		trial();
+		await context.drawImage(video, 0, 0, 190, 150);
 	};
 
-	const trial = async () => {
-		const barcodeDetector = new window.BarcodeDetector({
-			formats: [
-				'code_128',
-				'code_39',
-				'code_93',
-				'codabar',
-				'ean_13',
-				'ean_8',
-				'itf',
-				'upc_a',
-				'upc_e',
-			],
-		});
-		try {
-			const barcodes = await barcodeDetector.detect(canvas);
-			console.log(barcodes.rawValue);
-		} catch (e) {
-			console.error('Barcode detection failed:', e);
-		}
+	let formats;
+	window.BarcodeDetector.getSupportedFormats().then((arr) => (formats = arr));
+	const barcodeDetector = new window.BarcodeDetector({ formats });
+
+	/*const barcodeDetector = new window.BarcodeDetector({
+		formats: [
+			'code_128',
+			'code_39',
+			'code_93',
+			'codabar',
+			'ean_13',
+			'ean_8',
+			'itf',
+			'upc_a',
+			'upc_e',
+		],
+	});*/
+
+	const findBarcode = () => {
+		barcodeDetector
+			.detect(document.getElementById('video'))
+			.then((data) => {
+				console.log(data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
+
+	//setInterval(findBarcode, 3000);
+
+	//slider
 
 	return (
 		<>
 			{w > 480 ? (
 				<div className='inventory-container'>
 					<div className='row'>
-						<div id='nav-section' className='col-2'>
+						<div id='nav-section' className='col-3'>
 							<Navbar />
 						</div>
 
-						<div className='col-10'>
+						<div className='col-9'>
 							<h1 className='dash-heading'>Take Inventory</h1>
 							<hr className='dash-line' />
 							<div className='take-inventory'>
@@ -77,11 +87,14 @@ function Inventory() {
 										className='pic-btn'
 										onClick={takePic}
 									>
-										Take Photo
+										Scan Barcode
 									</button>
 									<div className='set-amt'>
 										Use the slider below to represent
-										quantity remaining.
+										quantity remaining. If the quantity
+										remaining is at or below your set
+										threshold, this item will be added to
+										you order list.
 										<div className='btl-img'>
 											(bottle shape and slider here)
 										</div>
@@ -110,11 +123,13 @@ function Inventory() {
 								</video>
 								<canvas id='canvas'></canvas>
 								<button className='pic-btn-m' onClick={takePic}>
-									Take Photo
+									Scan
 								</button>
 								<div className='set-amt-m'>
 									Use the slider below to represent quantity
-									remaining.
+									remaining. If the quantity remaining is at
+									or below your set threshold, this item will
+									be added to you order list.
 									<div className='btl-img'>
 										(bottle shape and slider here)
 									</div>

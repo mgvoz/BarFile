@@ -12,10 +12,10 @@ function Dashboard() {
 			{w > 480 ? (
 				<div className='dash-container'>
 					<div className='row'>
-						<div id='nav-section' className='col-2'>
+						<div id='nav-section' className='col-3'>
 							<Navbar />
 						</div>
-						<div className='col-10'>
+						<div className='col-9'>
 							<h1 className='dash-heading'>Dashboard</h1>
 							<hr className='dash-line' />
 							<h4 className='dash-subheading'>Recent Reports</h4>

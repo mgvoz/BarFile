@@ -87,10 +87,10 @@ function Settings({ settings }) {
 			{w > 480 ? (
 				<div className='settings-container'>
 					<div className='row'>
-						<div id='nav-section' className='col-2'>
+						<div id='nav-section' className='col-3'>
 							<Navbar />
 						</div>
-						<div className='col-10'>
+						<div className='col-9'>
 							<h1 className='dash-heading'>Settings</h1>
 							<hr className='dash-line' />
 							<div className='take-inventory'>

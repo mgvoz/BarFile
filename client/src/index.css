@@ -11,7 +11,7 @@
 /*NAVBAR*/
 .logo {
 	height: 200px;
-	width: 90%;
+	/*width: 90%;*/
 	margin-bottom: 1.5rem;
 }
 
@@ -44,7 +44,7 @@ hr.nav-line {
 	color: #eeeeed;
 	font-family: var(--primary-font);
 	font-size: 20px;
-	margin-left: 10%;
+	text-align: center;
 }
 
 ul {

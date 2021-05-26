@@ -22,6 +22,7 @@ function Navbar() {
 		alert('Logout successful');
 		history.push('/');
 		setUser(null);
+		stopStream();
 	};
 
 	//get user info for navbar, set auto-logout
@@ -35,19 +36,34 @@ function Navbar() {
 		setUser(JSON.parse(localStorage.getItem('profile')));
 	}, [location]);
 
+	//stop stream when leaving inventory page or logging out
+	const stopStream = () => {
+		if (document.getElementById('video')) {
+			const stream = document.getElementById('video').srcObject;
+			const tracks = stream.getTracks();
+			tracks.forEach(function (track) {
+				track.stop();
+			});
+			document.getElementById('video').srcObject = null;
+		}
+		return '';
+	};
+
 	return (
 		<>
 			{w > 480 ? (
 				<div className='nav-container'>
 					<ul>
 						<li>
-							<a href='/dashboard'>
-								<img
-									className='logo'
-									src={logo}
-									alt='BarFile logo'
-								/>
-							</a>
+							<center>
+								<a href='/dashboard'>
+									<img
+										className='logo'
+										src={logo}
+										alt='BarFile logo'
+									/>
+								</a>
+							</center>
 							<p className='nav-name'>{user?.result?.name}</p>
 						</li>
 						<hr className='nav-line' />
@@ -56,6 +72,7 @@ function Navbar() {
 								to='/dashboard'
 								id='nav-item'
 								className='nav-item nav-link'
+								onClick={stopStream}
 							>
 								Dashboard
 							</Link>
@@ -66,6 +83,7 @@ function Navbar() {
 								to='/settings'
 								id='nav-item'
 								className='nav-item nav-link'
+								onClick={stopStream}
 							>
 								Settings
 							</Link>
@@ -120,6 +138,7 @@ function Navbar() {
 								to='/dashboard'
 								id='nav-item-m'
 								className='nav-item nav-link'
+								onClick={stopStream}
 							>
 								Dashboard
 							</Link>
@@ -127,6 +146,7 @@ function Navbar() {
 								to='/settings'
 								id='nav-item-m'
 								className='nav-item nav-link'
+								onClick={stopStream}
 							>
 								Settings
 							</Link>
