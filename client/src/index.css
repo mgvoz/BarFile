@@ -26,7 +26,7 @@
 
 .nav-container {
 	background-color: var(--primary-gray);
-	height: 100vh;
+	height: 100%;
 }
 
 hr.nav-line {
@@ -56,7 +56,6 @@ ul {
 	background-color: var(--primary-orange);
 	font-family: var(--primary-font);
 	color: #eeeeed;
-	margin-top: 70%;
 	border: solid #eeeeed 2px;
 	height: 38px;
 	letter-spacing: 2px;
@@ -241,25 +240,102 @@ hr.dash-line-m {
 	margin-bottom: 0.5rem;
 }
 
-.pic-btn {
-	max-width: 30%;
-	background-color: var(--primary-orange);
-	font-family: var(--primary-font);
-	color: #eeeeed;
-	border: solid #eeeeed 2px;
-	height: 38px;
-	letter-spacing: 2px;
-	margin-top: 1.5rem;
+.item-info {
+	height: 400px;
+	width: 300px;
+	border: solid 2px var(--primary-gray);
+	padding: 20px 10px 20px 6px;
 }
 
-.pic-btn-m {
-	width: 80%;
+.info-text {
+	color: var(--primary-orange);
+	overflow-wrap: break-word;
+	text-align: left !important;
+	margin-bottom: 4px;
+}
+
+.info-text:hover {
+	background-color: #fae4c5;
+}
+
+.clear-scans {
+	width: 30%;
 	background-color: var(--primary-orange);
 	font-family: var(--primary-font);
 	color: #eeeeed;
 	border: solid #eeeeed 2px;
 	height: 38px;
 	letter-spacing: 2px;
+	margin-top: 10px;
+}
+
+.clear-scans-m {
+	width: 80%;
+	margin-top: 10px;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+.save-quantity {
+	width: 30%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+	margin-top: 10px;
+}
+
+.save-quantity-m {
+	width: 80%;
+	margin-top: 10px;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
+}
+
+#distributer-select-m {
+	margin-bottom: 20px;
+	width: 70%;
+	padding-left: 7px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#category-select-m {
+	margin-bottom: 20px;
+	width: 70%;
+	padding-left: 7px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#distributer-select {
+	margin-bottom: 20px;
+	width: 30%;
+	padding-left: 7px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+#category-select {
+	margin-bottom: 20px;
+	width: 30%;
+	padding-left: 7px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.quantity {
+	font-size: 20px;
 }
 
 .set-amt {
@@ -272,7 +348,7 @@ hr.dash-line-m {
 
 .btl-img {
 	max-width: 50%;
-	height: 100px;
+	height: 300px;
 	margin-top: 20px;
 }
 

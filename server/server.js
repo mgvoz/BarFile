@@ -6,6 +6,7 @@ import cors from 'cors';
 import methodOverride from 'method-override';
 import userRoutes from './routes/users.js';
 import settingRoutes from './routes/settings.js';
+import itemRoutes from './routes/items.js';
 import CONNECTION_URL from './config.js';
 
 const app = express();
@@ -19,10 +20,7 @@ app.use(cookieParser());
 //routes
 app.use('/users', userRoutes);
 app.use('/settings', settingRoutes);
-
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+app.use('/items', itemRoutes);
 
 const url = CONNECTION_URL;
 const port = 5000;

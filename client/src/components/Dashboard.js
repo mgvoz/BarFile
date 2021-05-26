@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 
-function Dashboard() {
+function Dashboard({ items, settings }) {
 	//set variables
 	var w = window.innerWidth;
 

@@ -21,3 +21,11 @@ export const createSettings = (newSetting) => API.post('/settings', newSetting);
 export const editSettings = (id, updatedSetting) =>
 	API.patch(`/settings/${id}`, updatedSetting);
 export const deleteSetting = (id) => API.delete(`/settings/${id}`);
+
+//items
+export const getItems = () => API.get('/items');
+export const getOneItem = (id) => API.get(`/items/${id}`);
+export const saveItem = (newItem) => API.post('/items', newItem);
+export const editItem = (id, updatedItem) =>
+	API.patch(`/items/${id}`, updatedItem);
+export const deleteItem = (id) => API.delete(`/items/${id}`);

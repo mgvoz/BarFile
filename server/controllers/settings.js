@@ -43,7 +43,7 @@ export const editSettings = async (req, res) => {
 	} = req.body;
 
 	if (!mongoose.Types.ObjectId.isValid(id))
-		return res.status(404).send(`No rubric with id: ${id}`);
+		return res.status(404).send(`No setting with id: ${id}`);
 
 	const updatedSetting = {
 		nameOfUser,

@@ -9,16 +9,23 @@ import Dashboard from './components/Dashboard';
 import Inventory from './components/Inventory';
 import Settings from './components/Settings';
 import { getSettings } from './actions/settings';
+import { getItems } from './actions/inventory';
 
 function App() {
 	const dispatch = useDispatch();
 	const settings = useSelector((state) => state.settings);
+	const items = useSelector((state) => state.items);
 
 	const [currentSettingId, setCurrentSettingId] = useState(0);
+	const [currentItemId, setCurrentItemId] = useState(0);
 
 	useEffect(() => {
 		dispatch(getSettings());
 	}, [currentSettingId, dispatch]);
+
+	useEffect(() => {
+		dispatch(getItems());
+	}, [currentItemId, dispatch]);
 
 	return (
 		<>
@@ -28,10 +35,10 @@ function App() {
 						<Home />
 					</Route>
 					<Route exact path='/dashboard'>
-						<Dashboard />
+						<Dashboard items={items} settings={settings} />
 					</Route>
 					<Route exact path='/inventory'>
-						<Inventory />
+						<Inventory items={items} settings={settings} />
 					</Route>
 					<Route exact path='/settings'>
 						<Settings settings={settings} />
