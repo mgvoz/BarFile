@@ -39,9 +39,9 @@ function Navbar() {
 	//stop stream when leaving inventory page or logging out
 	const stopStream = () => {
 		if (document.getElementById('video')) {
-			const stream = document.getElementById('video').srcObject;
-			const tracks = stream.getTracks();
-			tracks.forEach(function (track) {
+			const stream = document.getElementById('video')?.srcObject;
+			const tracks = stream?.getTracks();
+			tracks?.forEach(function (track) {
 				track.stop();
 			});
 			document.getElementById('video').srcObject = null;

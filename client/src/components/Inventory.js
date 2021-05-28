@@ -7,6 +7,7 @@ function Inventory({ items, settings }) {
 	/*****************************************************
 	- add onChange event to slider to show quantity and add to state
 	- add API product lookup to add product name to state
+	- add functionality to select individual items and save them with itemData state- replace 'this product' in form with product selected
 	 
 	******************************************************/
 
@@ -55,7 +56,6 @@ function Inventory({ items, settings }) {
 	};
 
 	//scan barcode from live camera stream
-
 	const barcodeDetector = new window.BarcodeDetector({
 		formats: [
 			'ean_13',
@@ -84,28 +84,32 @@ function Inventory({ items, settings }) {
 			});
 	};
 
+	//'https://api.apigenius.io/products/lookup?upc=' + code + '&api_key=' + key;
+	// titos - 619947000013
+
+	//api barcode lookup
 	let code;
+	let key = '91990a226f804b428cb02a40c9f5b1d9';
 	const apiLookup = (code) => {
-		const url = 'https://api.apigenius.io/products/lookup?upc=' + code;
+		const url =
+			'https://api.apigenius.io/products/lookup?upc=' +
+			code +
+			'&api_key=' +
+			key;
 		fetch(url, {
-			headers: {
-				ApiGenius_API_Key: '91990a226f804b428cb02a40c9f5b1d9',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-			},
 			mode: 'no-cors',
+			body: JSON.stringify(),
 		})
 			.then((response) => {
-				response.json();
 				setScannedItems([
 					...scannedItems,
-					response.json()?.items?.title,
+					response.text(), //?.items?.title,
 				]);
 			})
 			.catch((err) => console.log(err));
 	};
 
-	setInterval(findBarcode, 3000);
+	setInterval(findBarcode, 2000);
 
 	//slider/form
 	const saveItemData = () => {
@@ -121,7 +125,6 @@ function Inventory({ items, settings }) {
 	};
 
 	console.log(itemData);
-	console.log(thisUsersItems);
 	console.log(scannedItems);
 
 	return (
@@ -209,11 +212,7 @@ function Inventory({ items, settings }) {
 												})
 											}
 										>
-											<option
-												defaultValue
-												selected
-												disabled
-											>
+											<option selected disabled>
 												Select Distributer
 											</option>
 											{thisUsersSettings[0]?.length ===
@@ -251,11 +250,7 @@ function Inventory({ items, settings }) {
 												})
 											}
 										>
-											<option
-												defaultValue
-												selected
-												disabled
-											>
+											<option selected disabled>
 												Select Category
 											</option>
 											{thisUsersSettings[0]?.length ===
@@ -361,7 +356,7 @@ function Inventory({ items, settings }) {
 											})
 										}
 									>
-										<option defaultValue selected disabled>
+										<option selected disabled>
 											Select Distributer
 										</option>
 										{thisUsersSettings[0]?.length === 0 ? (
@@ -392,7 +387,7 @@ function Inventory({ items, settings }) {
 											})
 										}
 									>
-										<option defaultValue selected disabled>
+										<option selected disabled>
 											Select Category
 										</option>
 										{thisUsersSettings[0]?.length === 0 ? (
