@@ -33,7 +33,9 @@ function Settings({ settings }) {
 		threshold: document.getElementsByName('threshold')[0]?.computedName,
 	});
 
-	window.onload = () => {
+	//MESS WITH THESE FUNCTIONS TO SAVE THE DATA NOW THAT THERE IS A SETTINGS BOX
+
+	window.onloadstart = () => {
 		setSettingData({
 			nameOfUser: user?.result?.name,
 			creator: user?.result?.googleId || user?.result?._id,
@@ -94,11 +96,46 @@ function Settings({ settings }) {
 							<h1 className='dash-heading'>Settings</h1>
 							<hr className='dash-line' />
 							<div className='take-inventory'>
-								<h4>How will BarFile work for you?</h4>
-								<p>
-									You'll be able to modify these settings at
-									any time.
-								</p>
+								<h3>How will BarFile work for you?</h3>
+								<div className='current-settings'>
+									{thisUsersSettings.length === 0 ? (
+										<h5>
+											You have no settings yet. Please
+											fill out the form below-- you'll be
+											able to modify your settings at any
+											time.
+										</h5>
+									) : (
+										<>
+											<h5>
+												Below are your current settings.
+												You can change them by filling
+												out the form below.
+											</h5>
+											<p>
+												Distributers:{' '}
+												{
+													thisUsersSettings[0]
+														?.distributers
+												}
+											</p>
+											<p>
+												Threshold:{' '}
+												{
+													thisUsersSettings[0]
+														?.threshold
+												}
+											</p>
+											<p>
+												Categories:{' '}
+												{
+													thisUsersSettings[0]
+														?.categories
+												}
+											</p>
+										</>
+									)}
+								</div>
 								<form onSubmit={saveSettings}>
 									<label htmlFor='distributers'>
 										What <b>distributers</b> do you use to
@@ -187,13 +224,36 @@ function Settings({ settings }) {
 						<h1 className='dash-heading-m'>Settings</h1>
 						<hr className='dash-line-m' />
 						<div>
-							<h4 className='setting-subheading'>
-								How will BarFile work for you?
-							</h4>
-							<p>
-								You'll be able to modify these settings at any
-								time.
-							</p>
+							<h3>How will BarFile work for you?</h3>
+							<div className='current-settings'>
+								{thisUsersSettings.length === 0 ? (
+									<h5>
+										You have no settings yet. Please fill
+										out the form below-- you'll be able to
+										modify your settings at any time.
+									</h5>
+								) : (
+									<>
+										<h5>
+											Below are your current settings. You
+											can change them by filling out the
+											form below.
+										</h5>
+										<p>
+											Distributers:{' '}
+											{thisUsersSettings[0]?.distributers}
+										</p>
+										<p>
+											Threshold:{' '}
+											{thisUsersSettings[0]?.threshold}
+										</p>
+										<p>
+											Categories:{' '}
+											{thisUsersSettings[0]?.categories}
+										</p>
+									</>
+								)}
+							</div>
 							<form onSubmit={saveSettings}>
 								<label htmlFor='distributers'>
 									What <b>distributers</b> do you use to stock

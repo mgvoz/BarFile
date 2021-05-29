@@ -23,7 +23,7 @@ app.use('/settings', settingRoutes);
 app.use('/items', itemRoutes);
 
 const url = CONNECTION_URL;
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 mongoose
 	.connect(url, {

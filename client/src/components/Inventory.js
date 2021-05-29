@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Navbar from './Navbar';
 import { useDispatch } from 'react-redux';
 import { saveItem, editItem } from '../actions/inventory';
+const Stream = React.lazy(() => import('./Stream'));
 
 function Inventory({ items, settings }) {
 	/*****************************************************
@@ -142,14 +143,13 @@ function Inventory({ items, settings }) {
 							<div className='take-inventory'>
 								<p className='barcode-p'>Scan barcode:</p>
 								<center>
-									<video
-										id='video'
-										className='video-view'
-										autoPlay
-										onCanPlay={getVideoStream()}
+									<Suspense
+										fallback={<div>Loading camera...</div>}
 									>
-										Video stream not available.
-									</video>
+										<Stream
+											getVideoStream={getVideoStream}
+										/>
+									</Suspense>
 									<p className='barcode-p'>
 										Scanned item(s):
 									</p>
@@ -293,14 +293,11 @@ function Inventory({ items, settings }) {
 						<div className='take-inventory'>
 							<p className='barcode-p'>Scan barcode:</p>
 							<center>
-								<video
-									id='video'
-									className='video-view'
-									autoPlay
-									onCanPlay={getVideoStream()}
+								<Suspense
+									fallback={<div>Loading camera...</div>}
 								>
-									Video stream not available.
-								</video>
+									<Stream getVideoStream={getVideoStream} />
+								</Suspense>
 								<p className='barcode-p'>Scanned item(s):</p>
 								<div className='item-info'>
 									<ol>

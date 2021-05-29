@@ -56,11 +56,11 @@ function Home() {
 	const googleFailure = (error) => {
 		isSignup
 			? console.log(
-					'Google signup was unsuccessful. Try again later',
+					'Google signup was unsuccessful. Try again later.',
 					error,
 			  )
 			: console.log(
-					'Google sign in was unsuccessful. Try again later',
+					'Google sign in was unsuccessful. Try again later.',
 					error,
 			  );
 	};

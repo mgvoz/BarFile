@@ -397,3 +397,14 @@ hr.dash-line-m {
 #clear-settings-btn-m {
 	margin-top: 5px;
 }
+
+.current-settings {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border: dotted var(--primary-orange) 3px;
+	padding: 5px 7px 5px 7px;
+}
+
+.current-settings > h5 {
+	text-align: center;
+}

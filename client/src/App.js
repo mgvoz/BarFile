@@ -34,13 +34,13 @@ function App() {
 					<Route exact path='/'>
 						<Home />
 					</Route>
-					<Route exact path='/dashboard'>
+					<Route path='/dashboard'>
 						<Dashboard items={items} settings={settings} />
 					</Route>
-					<Route exact path='/inventory'>
+					<Route path='/inventory'>
 						<Inventory items={items} settings={settings} />
 					</Route>
-					<Route exact path='/settings'>
+					<Route path='/settings'>
 						<Settings settings={settings} />
 					</Route>
 				</Switch>
