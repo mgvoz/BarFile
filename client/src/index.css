@@ -95,6 +95,32 @@ ul {
 	font-size: 20px;
 }
 
+/*LOADING*/
+.loading-container {
+	text-align: center;
+	font-family: var(--primary-font);
+	margin-top: 20%;
+	color: var(--primary-gray);
+	margin-bottom: 50%;
+}
+
+@keyframes glass {
+	0% {
+		background: linear-gradient(var(--primary-orange), var(--primary-gray));
+	}
+	50% {
+		background: linear-gradient(var(--primary-gray), var(--primary-orange));
+	}
+	100% {
+		background: linear-gradient(var(--primary-orange), var(--primary-gray));
+	}
+}
+
+.glass {
+	animation: glass 2s infinite;
+	margin-top: 30px;
+}
+
 /*FOOTER*/
 .footer {
 	background-color: var(--primary-light);

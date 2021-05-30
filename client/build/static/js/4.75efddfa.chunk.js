@@ -1,0 +1,2 @@
+(this.webpackJsonpclient=this.webpackJsonpclient||[]).push([[4],{77:function(e,a,i){"use strict";i.r(a);i(1);var t=i(0);a.default=function(e){var a=e.getVideoStream;return Object(t.jsx)("video",{id:"video",className:"video-view",autoPlay:!0,onCanPlay:a(),children:"Video stream not available."})}}}]);
+//# sourceMappingURL=4.75efddfa.chunk.js.map

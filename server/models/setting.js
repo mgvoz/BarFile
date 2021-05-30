@@ -5,7 +5,7 @@ const settingSchema = new mongoose.Schema({
 	creator: { type: String, default: '' },
 	createdAt: { type: Date, default: new Date() },
 	distributers: { type: Array, default: [] },
-	threshold: { type: String, default: 0 },
+	threshold: { type: String, default: '' },
 	categories: { type: Array, default: [] },
 });
 
