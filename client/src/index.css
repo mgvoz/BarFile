@@ -99,7 +99,7 @@ ul {
 .loading-container {
 	text-align: center;
 	font-family: var(--primary-font);
-	margin-top: 20%;
+	margin-top: 10%;
 	color: var(--primary-gray);
 	margin-bottom: 50%;
 }
@@ -429,6 +429,7 @@ hr.dash-line-m {
 	margin-bottom: 15px;
 	border: dotted var(--primary-orange) 3px;
 	padding: 5px 7px 5px 7px;
+	max-width: 75%;
 }
 
 .current-settings > h5 {

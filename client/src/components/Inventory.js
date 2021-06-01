@@ -31,7 +31,7 @@ function Inventory({ items, settings }) {
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 6000);
+		setTimeout(() => setLoading(false), 4000);
 	}, []);
 
 	//get current user's items

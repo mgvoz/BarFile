@@ -21,7 +21,7 @@ function Settings({ settings }) {
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 6000);
+		setTimeout(() => setLoading(false), 4000);
 	}, []);
 
 	//get current user's settings
@@ -51,7 +51,8 @@ function Settings({ settings }) {
 	}, [loading]);
 
 	//save user setting input
-	const saveSettings = () => {
+	const saveSettings = (e) => {
+		e.preventDefault();
 		if (thisUsersSettings.length > 0) {
 			dispatch(
 				editSettings(thisUsersSettings[0]._id, {
@@ -75,9 +76,9 @@ function Settings({ settings }) {
 	const clearSettings = () => {
 		if (thisUsersSettings.length > 0) {
 			dispatch(deleteSetting(thisUsersSettings[0]?._id));
+			setSettingData({});
 			alert('Settings cleared!');
-			window.location.reload();
-		} else if (thisUsersSettings.length === 0) {
+		} else {
 			alert('No settings created yet.');
 		}
 	};
@@ -120,6 +121,7 @@ function Settings({ settings }) {
 												id='settings-textarea'
 												cols='30'
 												rows='5'
+												placeholder='...'
 												value={settingData.distributers}
 												onChange={(e) =>
 													setSettingData({
@@ -143,6 +145,7 @@ function Settings({ settings }) {
 												type='text'
 												name='threshold'
 												id='settings-textarea'
+												placeholder='...'
 												value={settingData.threshold}
 												onChange={(e) =>
 													setSettingData({
@@ -166,6 +169,7 @@ function Settings({ settings }) {
 												id='settings-textarea'
 												cols='30'
 												rows='5'
+												placeholder='...'
 												value={settingData.categories}
 												onChange={(e) =>
 													setSettingData({
@@ -186,7 +190,11 @@ function Settings({ settings }) {
 										<button
 											className='settings-button-desktop'
 											id='clear-settings-btn'
-											onClick={clearSettings}
+											onClick={(e) => {
+												e.preventDefault();
+												clearSettings();
+												window.location.reload();
+											}}
 										>
 											Clear All Settings
 										</button>
@@ -225,6 +233,7 @@ function Settings({ settings }) {
 											id='settings-textarea'
 											cols='30'
 											rows='5'
+											placeholder='...'
 											value={settingData.distributers}
 											onChange={(e) =>
 												setSettingData({
@@ -248,6 +257,7 @@ function Settings({ settings }) {
 											type='text'
 											name='threshold'
 											id='settings-textarea'
+											placeholder='...'
 											value={settingData.threshold}
 											onChange={(e) =>
 												setSettingData({
@@ -270,6 +280,7 @@ function Settings({ settings }) {
 											id='settings-textarea'
 											cols='30'
 											rows='5'
+											placeholder='...'
 											value={settingData.categories}
 											onChange={(e) =>
 												setSettingData({
@@ -289,7 +300,20 @@ function Settings({ settings }) {
 									<button
 										className='settings-button'
 										id='clear-settings-btn-m'
-										onClick={clearSettings}
+										onClick={() => {
+											dispatch(
+												deleteSetting(
+													thisUsersSettings[0]?._id,
+												),
+											)
+												.then(() => {
+													setSettingData({});
+													alert('Settings cleared!');
+												})
+												.then(() =>
+													window.location.reload(),
+												);
+										}}
 									>
 										Clear All Settings
 									</button>
