@@ -378,6 +378,19 @@ hr.dash-line-m {
 	margin-top: 20px;
 }
 
+.inventory-settings {
+	font-size: 18px;
+	margin-top: 25px;
+	padding: 3px;
+	background-color: var(--primary-orange);
+}
+
+.threshold-info {
+	font-size: 18px;
+	background-color: var(--primary-orange);
+	padding: 3px;
+}
+
 /*SETTINGS*/
 
 .take-inventory {

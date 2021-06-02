@@ -52,11 +52,11 @@ function Inventory({ items, settings }) {
 	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');
 
 	//access camera on device and stream
-	var video = document.getElementById('video');
-
 	const getVideoStream = () => {
 		navigator.mediaDevices
-			.getUserMedia({ video: true })
+			.getUserMedia({
+				video: true,
+			})
 			.then((stream) => {
 				document.getElementById('video').srcObject = stream;
 			})
@@ -64,7 +64,7 @@ function Inventory({ items, settings }) {
 	};
 
 	//scan barcode from live camera stream
-	const barcodeDetector = new window.BarcodeDetector({
+	/*const barcodeDetector = new window.BarcodeDetector({
 		formats: [
 			'ean_13',
 			'ean_8',
@@ -79,17 +79,19 @@ function Inventory({ items, settings }) {
 	});
 
 	const findBarcode = () => {
-		barcodeDetector
-			.detect(document.getElementById('video'))
-			.then((data) => {
-				if (data.length > 0) {
-					code = data[0].rawValue;
-					apiLookup(code);
-				}
-			})
-			.catch((e) => {
-				console.log(e);
-			});
+		if (document.getElementById('video')) {
+			barcodeDetector
+				.detect(document.getElementById('video'))
+				.then((data) => {
+					if (data.length > 0) {
+						code = data[0].rawValue;
+						apiLookup(code);
+					}
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		}
 	};
 
 	//'https://api.apigenius.io/products/lookup?upc=' + code + '&api_key=' + key;
@@ -117,7 +119,7 @@ function Inventory({ items, settings }) {
 			.catch((err) => console.log(err));
 	};
 
-	setInterval(findBarcode, 2000);
+	setInterval(findBarcode, 2000);*/
 
 	//slider/form
 	const saveItemData = () => {
@@ -152,6 +154,14 @@ function Inventory({ items, settings }) {
 									</h1>
 									<hr className='dash-line' />
 									<div className='take-inventory'>
+										{thisUsersSettings.length === 0 ? (
+											<b className='inventory-settings'>
+												Attention! Please set your
+												distributers, threshold, and
+												categories on the Settings page
+												before taking inventory.
+											</b>
+										) : null}
 										<p className='barcode-p'>
 											Scan barcode:
 										</p>
@@ -200,18 +210,7 @@ function Inventory({ items, settings }) {
 												the quantity remaining is at or
 												below your set threshold, this
 												item will be added to you order
-												list.{' '}
-												<b>
-													Your threshold is currently{' '}
-													{thisUsersSettings[0]
-														?.threshold ===
-													undefined
-														? 'unspecified. Please go to Settings to set your threshold'
-														: thisUsersSettings[0]
-																?.threshold +
-														  '%'}
-													.
-												</b>
+												list.
 												<div className='btl-img'>
 													(bottle shape and slider
 													here, onClick of item above,
@@ -222,6 +221,15 @@ function Inventory({ items, settings }) {
 											<form onSubmit={saveItemData}>
 												<p className='quantity'>
 													Quantity: <b>{+'%'}</b>
+												</p>
+												<p className='threshold-info'>
+													{thisUsersSettings.length ===
+													0
+														? 'Please set your desired distributers, threshold, and categories on the Settings page.'
+														: 'Your threshold is currently set to ' +
+														  thisUsersSettings[0]
+																.threshold +
+														  '%.'}
 												</p>
 												<p>
 													Which distributer do you
@@ -325,6 +333,14 @@ function Inventory({ items, settings }) {
 								</h1>
 								<hr className='dash-line-m' />
 								<div className='take-inventory'>
+									{thisUsersSettings.length === 0 ? (
+										<b className='inventory-settings'>
+											Attention! Please set your
+											distributers, threshold, and
+											categories on the Settings page
+											before taking inventory.
+										</b>
+									) : null}
 									<p className='barcode-p'>Scan barcode:</p>
 									<center>
 										<Suspense
@@ -365,16 +381,7 @@ function Inventory({ items, settings }) {
 											quantity remaining. If the quantity
 											remaining is at or below your set
 											threshold, this item will be added
-											to you order list.{' '}
-											<b>
-												Your threshold is currently{' '}
-												{thisUsersSettings[0]
-													?.threshold === undefined
-													? 'unspecified. Please go to Settings to set your threshold'
-													: thisUsersSettings[0]
-															?.threshold + '%'}
-												.
-											</b>
+											to you order list.
 											<div className='btl-img'>
 												(bottle shape and slider here,
 												onClick of item above, show
@@ -385,6 +392,14 @@ function Inventory({ items, settings }) {
 										<form onSubmit={saveItemData}>
 											<p className='quantity'>
 												Quantity: <b>{+'%'}</b>
+											</p>
+											<p className='threshold-info'>
+												{thisUsersSettings.length === 0
+													? 'Please set your desired distributers, threshold, and categories on the Settings page.'
+													: 'Your threshold is currently set to ' +
+													  thisUsersSettings[0]
+															.threshold +
+													  '%.'}
 											</p>
 											<p>
 												Which distributer do you
