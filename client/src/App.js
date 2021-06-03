@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
 import Inventory from './components/Inventory';
 import Settings from './components/Settings';
+import ManualEntry from './components/ManualEntry';
 import { getSettings } from './actions/settings';
 import { getItems } from './actions/inventory';
 
@@ -37,11 +38,14 @@ function App() {
 					<Route path='/dashboard'>
 						<Dashboard items={items} settings={settings} />
 					</Route>
+					<Route path='/settings'>
+						<Settings settings={settings} />
+					</Route>
 					<Route path='/inventory'>
 						<Inventory items={items} settings={settings} />
 					</Route>
-					<Route path='/settings'>
-						<Settings settings={settings} />
+					<Route path='/manual-entry'>
+						<ManualEntry items={items} settings={settings} />
 					</Route>
 				</Switch>
 				<Footer />

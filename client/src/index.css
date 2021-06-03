@@ -253,9 +253,11 @@ hr.dash-line-m {
 	margin-right: auto;
 }
 
-.video-view {
-	height: 150px;
-	width: 300px;
+#message {
+	font-size: 22px;
+	color: var(--primary-orange);
+	margin-top: 35px;
+	margin-bottom: 60%;
 }
 
 .barcode-p {
