@@ -137,7 +137,7 @@ function Settings({ settings }) {
 												like to use to indicate when
 												it's time to reorder? (i.e.
 												reorder when inventory for an
-												item is 30% or less)
+												item is 0.3 or less)
 											</label>
 											<br />
 											<input
@@ -155,7 +155,6 @@ function Settings({ settings }) {
 													})
 												}
 											/>
-											%
 											<br />
 											<label htmlFor='categories'>
 												What <b>categories</b> would you
@@ -248,7 +247,7 @@ function Settings({ settings }) {
 											What <b>threshold</b> would you like
 											to use to indicate when it's time to
 											reorder? (i.e. reorder when
-											inventory for an item is 30% or
+											inventory for an item is 0.3 or
 											less)
 										</label>
 										<br />
@@ -266,7 +265,6 @@ function Settings({ settings }) {
 												})
 											}
 										/>
-										%
 										<br />
 										<label htmlFor='categories'>
 											What <b>categories</b> would you

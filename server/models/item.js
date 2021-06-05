@@ -6,7 +6,7 @@ const itemSchema = new mongoose.Schema({
 	lastUpdated: { type: Date, default: new Date() },
 	nameOfItem: { type: String, default: '' },
 	distributer: { type: Array, default: '' },
-	quantityRemaining: { type: String, default: 0 },
+	quantityRemaining: { type: String, default: '' },
 	category: { type: Array, default: '' },
 });
 

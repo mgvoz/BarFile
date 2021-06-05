@@ -11,7 +11,6 @@
 /*NAVBAR*/
 .logo {
 	height: 200px;
-	/*width: 90%;*/
 	margin-bottom: 1.5rem;
 }
 
@@ -123,7 +122,6 @@ ul {
 
 /*FOOTER*/
 .footer {
-	background-color: var(--primary-light);
 	height: 4rem;
 	bottom: 0;
 	width: 100%;
@@ -251,6 +249,11 @@ hr.dash-line-m {
 	max-width: 90%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 30px;
+}
+
+.inventory-container {
+	margin-bottom: 30px;
 }
 
 #message {
@@ -284,6 +287,10 @@ hr.dash-line-m {
 
 .info-text:hover {
 	background-color: #fae4c5;
+}
+
+.manual-form {
+	margin-top: 30px;
 }
 
 .clear-scans {
@@ -332,7 +339,7 @@ hr.dash-line-m {
 
 #distributer-select-m {
 	margin-bottom: 20px;
-	width: 70%;
+	width: 80%;
 	padding-left: 7px;
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -340,7 +347,7 @@ hr.dash-line-m {
 
 #category-select-m {
 	margin-bottom: 20px;
-	width: 70%;
+	width: 80%;
 	padding-left: 7px;
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -360,6 +367,42 @@ hr.dash-line-m {
 	padding-left: 7px;
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+#product-entry {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 30%;
+	padding-left: 8px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+#quantity-entry {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 30%;
+	padding-left: 8px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+#product-entry-m {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 80%;
+	padding-left: 7px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+#quantity-entry-m {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 80%;
+	padding-left: 7px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 }
 
 .quantity {
@@ -383,14 +426,50 @@ hr.dash-line-m {
 .inventory-settings {
 	font-size: 18px;
 	margin-top: 25px;
-	padding: 3px;
+	padding: 6px;
 	background-color: var(--primary-orange);
+	color: #eeeeed;
+	text-align: center;
+	font-family: var(--secondary-font);
 }
 
 .threshold-info {
 	font-size: 18px;
+	width: 30%;
 	background-color: var(--primary-orange);
 	padding: 3px;
+	color: #eeeeed;
+	text-align: center;
+}
+
+.threshold-info-m {
+	font-size: 18px;
+	width: 80%;
+	margin-top: 0;
+	background-color: var(--primary-orange);
+	padding: 5px;
+	color: #eeeeed;
+	text-align: center;
+}
+
+.manual-link {
+	text-decoration: none;
+	color: var(--primary-orange);
+}
+
+.manual-link:hover {
+	text-decoration: underline;
+	color: var(--primary-orange);
+}
+
+.manual-link-force {
+	text-decoration: none;
+	color: var(--primary-gray);
+}
+
+.manual-link-force:hover {
+	text-decoration: underline;
+	color: var(--primary-gray);
 }
 
 /*SETTINGS*/

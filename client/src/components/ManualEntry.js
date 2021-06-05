@@ -52,10 +52,10 @@ function ManualEntry({ items, settings }) {
 		} else {
 			dispatch(saveItem({ itemData }));
 		}
-		alert('Item quantity saved successfully.');
+		alert('Item saved successfully.');
 	};
 
-	//FINISH THIS PAGE-- ADD TEXT INPUTS FOR PRODUCT NAME, QUANTITY, PUT ALERT TO CREATE SETTINGS AT TOP OF PAGE, EDIT STYLE
+	console.log(itemData);
 
 	return (
 		<>
@@ -72,99 +72,160 @@ function ManualEntry({ items, settings }) {
 										Take Inventory
 									</h1>
 									<hr className='dash-line' />
-									<form onSubmit={saveItemData}>
-										<p className='quantity'>
-											Quantity: <b>{+'%'}</b>
-										</p>
-										<p className='threshold-info'>
-											{thisUsersSettings.length === 0
-												? 'Please set your desired distributers, threshold, and categories on the Settings page.'
-												: 'Your threshold is currently set to ' +
-												  thisUsersSettings[0]
-														.threshold +
-												  '%.'}
-										</p>
-										<p>
-											Which distributer do you typically
-											order this product from?
-										</p>
-										<select
-											name='distributer'
-											id='distributer-select'
-											onChange={(e) =>
-												setItemData({
-													...itemData,
-													distributer: e.target.value,
-												})
-											}
-										>
-											<option selected disabled>
-												Select Distributer
-											</option>
-											{thisUsersSettings[0]?.length ===
-											0 ? (
-												<option disabled>
-													No Distributers Available -
-													Set your Distributers on the
-													Settings Page.
-												</option>
-											) : (
-												distributers?.map(
-													(dist, key) => (
-														<option
-															key={key}
-															value={dist}
-														>
-															{dist}
-														</option>
-													),
-												)
-											)}
-										</select>
-										<br />
-										<p>
-											Which category does this product
-											belong to?
-										</p>
-										<select
-											name='category'
-											id='category-select'
-											onChange={(e) =>
-												setItemData({
-													...itemData,
-													category: e.target.value,
-												})
-											}
-										>
-											<option selected disabled>
-												Select Category
-											</option>
-											{thisUsersSettings[0]?.length ===
-											0 ? (
-												<option disabled>
-													No Categories Available -
-													Set your Categories on the
-													Settings Page.
-												</option>
-											) : (
-												categories?.map((cat, key) => (
-													<option
-														key={key}
-														value={cat}
-													>
-														{cat}
+									<center>
+										{thisUsersSettings.length === 0 ? (
+											<p className='inventory-settings'>
+												<b>
+													Attention! Please set your
+													distributers, threshold, and
+													categories on the Settings
+													page before taking
+													inventory.
+												</b>
+											</p>
+										) : null}
+										<div className='take-inventory'>
+											<form
+												className='manual-form'
+												onSubmit={saveItemData}
+											>
+												<label htmlFor='product'>
+													Product name:
+												</label>
+												<br />
+												<input
+													name='product'
+													type='text'
+													id='product-entry'
+													value={itemData.nameOfItem}
+													onChange={(e) =>
+														setItemData({
+															...itemData,
+															nameOfItem:
+																e.target.value,
+														})
+													}
+												/>
+												<br />
+												<label htmlFor='quantity'>
+													Quantity remaining:
+												</label>
+												<br />
+												<input
+													name='quantity'
+													type='text'
+													id='quantity-entry'
+													value={
+														itemData.quantityRemaining
+													}
+													onChange={(e) =>
+														setItemData({
+															...itemData,
+															quantityRemaining:
+																e.target.value,
+														})
+													}
+												/>
+												<br />
+												<p className='threshold-info'>
+													{thisUsersSettings.length ===
+													0
+														? 'Please set your desired distributers, threshold, and categories on the Settings page.'
+														: 'Your threshold is currently set to ' +
+														  thisUsersSettings[0]
+																.threshold +
+														  '.'}
+												</p>
+												<p>
+													Which distributer do you
+													typically order this product
+													from?
+												</p>
+												<select
+													name='distributer'
+													id='distributer-select'
+													onChange={(e) =>
+														setItemData({
+															...itemData,
+															distributer:
+																e.target.value,
+														})
+													}
+												>
+													<option selected disabled>
+														Select Distributer
 													</option>
-												))
-											)}
-										</select>
-										<br />
-										<button
-											className='save-quantity'
-											type='submit'
-										>
-											Save This Item
-										</button>
-									</form>
+													{thisUsersSettings[0]
+														?.length === 0 ? (
+														<option disabled>
+															No Distributers
+															Available - Set your
+															Distributers on the
+															Settings Page.
+														</option>
+													) : (
+														distributers?.map(
+															(dist, key) => (
+																<option
+																	key={key}
+																	value={dist}
+																>
+																	{dist}
+																</option>
+															),
+														)
+													)}
+												</select>
+												<br />
+												<p>
+													Which category does this
+													product belong to?
+												</p>
+												<select
+													name='category'
+													id='category-select'
+													onChange={(e) =>
+														setItemData({
+															...itemData,
+															category:
+																e.target.value,
+														})
+													}
+												>
+													<option selected disabled>
+														Select Category
+													</option>
+													{thisUsersSettings[0]
+														?.length === 0 ? (
+														<option disabled>
+															No Categories
+															Available - Set your
+															Categories on the
+															Settings Page.
+														</option>
+													) : (
+														categories?.map(
+															(cat, key) => (
+																<option
+																	key={key}
+																	value={cat}
+																>
+																	{cat}
+																</option>
+															),
+														)
+													)}
+												</select>
+												<br />
+												<button
+													className='save-quantity'
+													type='submit'
+												>
+													Save This Item
+												</button>
+											</form>
+										</div>
+									</center>
 								</div>
 							</div>
 						</div>
@@ -176,19 +237,69 @@ function ManualEntry({ items, settings }) {
 									Take Inventory
 								</h1>
 								<hr className='dash-line-m' />
+								{thisUsersSettings.length === 0 ? (
+									<center>
+										<p className='inventory-settings'>
+											<b>
+												Attention! Please set your
+												distributers, threshold, and
+												categories on the Settings page
+												before taking inventory.
+											</b>
+										</p>
+									</center>
+								) : null}
 								<div className='take-inventory'>
 									<center>
-										<form onSubmit={saveItemData}>
-											<p className='quantity'>
-												Quantity: <b>{+'%'}</b>
-											</p>
-											<p className='threshold-info'>
+										<form
+											className='manual-form'
+											onSubmit={saveItemData}
+										>
+											<label htmlFor='product'>
+												Product name:
+											</label>
+											<br />
+											<input
+												name='product'
+												type='text'
+												id='product-entry-m'
+												value={itemData.nameOfItem}
+												onChange={(e) =>
+													setItemData({
+														...itemData,
+														nameOfItem:
+															e.target.value,
+													})
+												}
+											/>
+											<br />
+											<label htmlFor='quantity'>
+												Quantity remaining:
+											</label>
+											<br />
+											<input
+												name='quantity'
+												type='text'
+												id='product-entry-m'
+												value={
+													itemData.quantityRemaining
+												}
+												onChange={(e) =>
+													setItemData({
+														...itemData,
+														quantityRemaining:
+															e.target.value,
+													})
+												}
+											/>
+											<br />
+											<p className='threshold-info-m'>
 												{thisUsersSettings.length === 0
 													? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 													: 'Your threshold is currently set to ' +
 													  thisUsersSettings[0]
 															.threshold +
-													  '%.'}
+													  '.'}
 											</p>
 											<p>
 												Which distributer do you

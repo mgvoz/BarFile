@@ -8,7 +8,6 @@ import Loading from './Loading';
 function Inventory({ items, settings }) {
 	/*****************************************************
 	- add onChange event to slider to show quantity and add to state
-	- add API product lookup to add product name to state
 	- add functionality to select individual items and save them with itemData state- replace 'this product' in form with product selected
 	 
 	******************************************************/
@@ -157,22 +156,39 @@ function Inventory({ items, settings }) {
 												Barcode detection is not
 												supported in your browser. To
 												manually enter inventory,{' '}
-												<Link to='/manual-entry'>
+												<Link
+													to='/manual-entry'
+													className='manual-link-force'
+												>
 													click here.
 												</Link>
 											</p>
 										) : (
 											<>
+												<h3>
+													Begin scanning below, or{' '}
+													<Link
+														to='/manual-entry'
+														className='manual-link'
+													>
+														click here
+													</Link>{' '}
+													if you'd like to enter
+													inventory manually.
+												</h3>
 												{thisUsersSettings.length ===
 												0 ? (
-													<b className='inventory-settings'>
-														Attention! Please set
-														your distributers,
-														threshold, and
-														categories on the
-														Settings page before
-														taking inventory.
-													</b>
+													<p className='inventory-settings'>
+														<b>
+															Attention! Please
+															set your
+															distributers,
+															threshold, and
+															categories on the
+															Settings page before
+															taking inventory.
+														</b>
+													</p>
 												) : null}
 												<p className='barcode-p'>
 													Scan barcode:
@@ -181,7 +197,6 @@ function Inventory({ items, settings }) {
 													<video
 														id='video'
 														className='video-view'
-														height='300px'
 														width='30%'
 														autoPlay
 														onCanPlay={getVideoStream()}
@@ -243,7 +258,7 @@ function Inventory({ items, settings }) {
 													>
 														<p className='quantity'>
 															Quantity:{' '}
-															<b>{+'%'}</b>
+															<b>{''}</b>
 														</p>
 														<p className='threshold-info'>
 															{thisUsersSettings.length ===
@@ -252,7 +267,7 @@ function Inventory({ items, settings }) {
 																: 'Your threshold is currently set to ' +
 																  thisUsersSettings[0]
 																		.threshold +
-																  '%.'}
+																  '.'}
 														</p>
 														<p>
 															Which distributer do
@@ -406,20 +421,40 @@ function Inventory({ items, settings }) {
 											Barcode detection is not supported
 											in your browser. To manually enter
 											inventory,{' '}
-											<Link to='/manual-entry'>
+											<Link
+												to='/manual-entry'
+												className='manual-link-force'
+											>
 												click here.
 											</Link>
 										</p>
 									) : (
 										<>
+											<h3>
+												Begin scanning below, or{' '}
+												<Link
+													to='/manual-entry'
+													className='manual-link'
+												>
+													click here
+												</Link>{' '}
+												if you'd like to enter inventory
+												manually.
+											</h3>
 											{thisUsersSettings.length === 0 ? (
-												<b className='inventory-settings'>
-													Attention! Please set your
-													distributers, threshold, and
-													categories on the Settings
-													page before taking
-													inventory.
-												</b>
+												<center>
+													<p className='inventory-settings'>
+														<b>
+															Attention! Please
+															set your
+															distributers,
+															threshold, and
+															categories on the
+															Settings page before
+															taking inventory.
+														</b>
+													</p>
+												</center>
 											) : null}
 											<p className='barcode-p'>
 												Scan barcode:
@@ -480,16 +515,16 @@ function Inventory({ items, settings }) {
 												</div>
 												<form onSubmit={saveItemData}>
 													<p className='quantity'>
-														Quantity: <b>{+'%'}</b>
+														Quantity: <b>{''}</b>
 													</p>
-													<p className='threshold-info'>
+													<p className='threshold-info-m'>
 														{thisUsersSettings.length ===
 														0
 															? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 															: 'Your threshold is currently set to ' +
 															  thisUsersSettings[0]
 																	.threshold +
-															  '%.'}
+															  '.'}
 													</p>
 													<p>
 														Which distributer do you
