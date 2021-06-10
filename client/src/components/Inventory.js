@@ -13,9 +13,9 @@ function Inventory({ items, settings }) {
 	******************************************************/
 
 	//set variables
-	var w = window.innerWidth;
 	const dispatch = useDispatch();
 	const user = JSON.parse(localStorage.getItem('profile'));
+	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [scannedItems, setScannedItems] = useState([]);
 	const [itemData, setItemData] = useState({
@@ -31,6 +31,7 @@ function Inventory({ items, settings }) {
 	//set loading screen
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 4000);
+		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
 
 	//get current user's items
@@ -88,8 +89,8 @@ function Inventory({ items, settings }) {
 				.then((data) => {
 					if (data.length > 0) {
 						code = data[0].rawValue;
-						setScannedItems([...scannedItems, code]);
-						//apiLookup(code);
+						//setScannedItems([...scannedItems, code]);
+						apiLookup(code);
 					}
 				})
 				.catch((e) => {
@@ -97,9 +98,6 @@ function Inventory({ items, settings }) {
 				});
 		}
 	};
-
-	//'https://api.apigenius.io/products/lookup?upc=' + code + '&api_key=' + key;
-	// titos - 619947000013
 
 	//api barcode lookup
 	let key = '91990a226f804b428cb02a40c9f5b1d9';
@@ -109,12 +107,18 @@ function Inventory({ items, settings }) {
 			code +
 			'&api_key=' +
 			key;
-		fetch(url, {
-			mode: 'no-cors',
-			body: JSON.stringify(),
-		})
-			.then((response) => {
-				setScannedItems([...scannedItems, response.text()]);
+		fetch(url, { mode: 'no-cors' })
+			.then((res) => {
+				if (res.ok) {
+					console.log(res);
+					return res.text();
+				} else {
+					console.log('failure');
+				}
+			})
+			.then((data) => {
+				console.log(data);
+				setScannedItems([...scannedItems, data]);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -138,7 +142,7 @@ function Inventory({ items, settings }) {
 		<>
 			{loading === false ? (
 				<>
-					{w > 480 ? (
+					{width >= 1000 ? (
 						<div className='inventory-container'>
 							<div className='row'>
 								<div id='nav-section' className='col-3'>
@@ -197,6 +201,7 @@ function Inventory({ items, settings }) {
 													<video
 														id='video'
 														className='video-view'
+														maxHeight='400px'
 														width='30%'
 														autoPlay
 														onCanPlay={getVideoStream()}
@@ -463,6 +468,7 @@ function Inventory({ items, settings }) {
 												<video
 													id='video'
 													className='video-view'
+													height='300px'
 													width='90%'
 													autoPlay
 													playsInline

@@ -120,6 +120,11 @@ ul {
 	margin-top: 30px;
 }
 
+.loading-logo {
+	max-height: 30%;
+	width: 50%;
+}
+
 /*FOOTER*/
 .footer {
 	height: 4rem;
@@ -499,6 +504,7 @@ hr.dash-line-m {
 	border: solid #eeeeed 2px;
 	height: 38px;
 	letter-spacing: 2px;
+	margin-top: 5px;
 }
 
 .setting-subheading {

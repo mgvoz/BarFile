@@ -4,21 +4,24 @@ import Navbar from './Navbar';
 
 function Dashboard({ items, settings }) {
 	//set variables
-	var w = window.innerWidth;
 	const [loading, setLoading] = useState(true);
+	const [width, setWidth] = useState(0);
 
 	//set loading screen
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 4000);
+		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
 
 	//download to excel sheet
+
+	console.log(width);
 
 	return (
 		<>
 			{loading === false ? (
 				<>
-					{w > 480 ? (
+					{width >= 1000 ? (
 						<div className='dash-container'>
 							<div className='row'>
 								<div id='nav-section' className='col-3'>

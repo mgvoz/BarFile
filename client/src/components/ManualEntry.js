@@ -6,9 +6,9 @@ import { saveItem, editItem } from '../actions/inventory';
 
 function ManualEntry({ items, settings }) {
 	//set variables
-	var w = window.innerWidth;
 	const dispatch = useDispatch();
 	const user = JSON.parse(localStorage.getItem('profile'));
+	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
@@ -23,6 +23,7 @@ function ManualEntry({ items, settings }) {
 	//set loading screen
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 4000);
+		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
 
 	//get current user's items
@@ -61,7 +62,7 @@ function ManualEntry({ items, settings }) {
 		<>
 			{loading === false ? (
 				<>
-					{w > 480 ? (
+					{width >= 1000 ? (
 						<div className='inventory-container'>
 							<div className='row'>
 								<div id='nav-section' className='col-3'>

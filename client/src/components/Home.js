@@ -8,7 +8,6 @@ import { signin, signup } from '../actions/auth';
 function Home() {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	var w = window.innerWidth;
 	const [isSignup, setIsSignup] = useState(false);
 	const [userData, setUserData] = useState({
 		name: '',
@@ -67,7 +66,7 @@ function Home() {
 
 	return (
 		<>
-			{w > 480 ? (
+			{window.innerWidth >= 1000 ? (
 				<div className='home-container'>
 					<div className='row'>
 						<div className='col-8'>

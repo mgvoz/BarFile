@@ -14,7 +14,6 @@ function Navbar() {
 	const [user, setUser] = useState(
 		JSON.parse(localStorage.getItem('profile')),
 	);
-	var w = window.innerWidth;
 
 	//dispatch logout function for logout button
 	const logout = () => {
@@ -51,7 +50,7 @@ function Navbar() {
 
 	return (
 		<>
-			{w > 480 ? (
+			{window.innerWidth >= 1000 ? (
 				<div className='nav-container'>
 					<ul>
 						<li>
