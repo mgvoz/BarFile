@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { saveItem, editItem } from '../actions/inventory';
 import Loading from './Loading';
+import { useHistory } from 'react-router-dom';
 
 function Inventory({ items, settings }) {
 	/*****************************************************
@@ -14,6 +15,7 @@ function Inventory({ items, settings }) {
 
 	//set variables
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
@@ -26,6 +28,7 @@ function Inventory({ items, settings }) {
 		category: '',
 		distributer: '',
 		nameOfItem: '',
+		barcode: '',
 	});
 
 	//set loading screen
@@ -89,6 +92,7 @@ function Inventory({ items, settings }) {
 				.then((data) => {
 					if (data.length > 0) {
 						code = data[0].rawValue;
+						setItemData({ ...itemData, barcode: code });
 						//setScannedItems([...scannedItems, code]);
 						apiLookup(code);
 					}
@@ -126,16 +130,26 @@ function Inventory({ items, settings }) {
 	setInterval(findBarcode, 2000);
 
 	//slider/form
-	const saveItemData = () => {
-		const match = thisUsersItems.filter(
-			(item) => item.nameOfItem === itemData.nameOfItem,
-		);
-		if (match) {
-			dispatch(editItem(match._id, { ...itemData }));
+	const saveItemData = (e) => {
+		e.preventDefault();
+		if (thisUsersItems.length > 0) {
+			const match = thisUsersItems.filter(
+				(item) => item.barcode === itemData.barcode,
+			);
+			if (match.length !== 0) {
+				dispatch(editItem(match[0]._id, { ...itemData }));
+				alert('Item saved successfully.');
+				history.push('/inventory');
+			} else {
+				dispatch(saveItem({ itemData }));
+				alert('Item saved successfully.');
+				history.push('/inventory');
+			}
 		} else {
 			dispatch(saveItem({ itemData }));
+			alert('Item saved successfully.');
+			history.push('/inventory');
 		}
-		alert('Item quantity saved successfully.');
 	};
 
 	return (
@@ -282,6 +296,7 @@ function Inventory({ items, settings }) {
 														<select
 															name='distributer'
 															id='distributer-select'
+															required
 															onChange={(e) =>
 																setItemData({
 																	...itemData,
@@ -344,6 +359,7 @@ function Inventory({ items, settings }) {
 														<select
 															name='category'
 															id='category-select'
+															required
 															onChange={(e) =>
 																setItemData({
 																	...itemData,
@@ -540,6 +556,7 @@ function Inventory({ items, settings }) {
 													<select
 														name='distributer'
 														id='distributer-select-m'
+														required
 														onChange={(e) =>
 															setItemData({
 																...itemData,
@@ -589,6 +606,7 @@ function Inventory({ items, settings }) {
 													<select
 														name='category'
 														id='category-select-m'
+														required
 														onChange={(e) =>
 															setItemData({
 																...itemData,

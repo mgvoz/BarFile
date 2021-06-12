@@ -21,7 +21,7 @@ export const getOneItem = async (req, res) => {
 };
 
 export const saveItem = async (req, res) => {
-	const item = req.body;
+	const item = req.body.itemData;
 	const newItem = new Item({ ...item });
 	try {
 		await newItem.save();
@@ -41,6 +41,7 @@ export const editItem = async (req, res) => {
 		distributer,
 		quantityRemaining,
 		category,
+		barcode,
 	} = req.body;
 
 	if (!mongoose.Types.ObjectId.isValid(id))
@@ -54,6 +55,7 @@ export const editItem = async (req, res) => {
 		distributer,
 		quantityRemaining,
 		category,
+		barcode,
 		_id: id,
 	};
 	await Item.findByIdAndUpdate(id, updatedItem, { new: true });

@@ -122,7 +122,7 @@ ul {
 
 .loading-logo {
 	max-height: 30%;
-	width: 50%;
+	width: 60%;
 }
 
 /*FOOTER*/
@@ -239,13 +239,54 @@ hr.dash-line-m {
 }
 
 .dash-data {
+	font-family: var(--secondary-font);
+	color: var(--primary-gray);
 	height: 200px;
 	margin-left: 2rem;
+	margin-top: 15px;
 }
 
 .dash-data-m {
+	font-family: var(--secondary-font);
+	color: var(--primary-gray);
 	height: 200px;
 	margin-left: 10px;
+	margin-top: 15px;
+}
+
+.dash-list-item {
+	margin-top: 6px;
+}
+
+.dash-settings {
+	font-family: var(--secondary-font);
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 2rem;
+	padding: 7px 15px 7px 15px;
+	background-color: var(--primary-orange);
+	color: #eeeeed;
+	width: 80%;
+}
+
+.dash-settings-m {
+	font-family: var(--secondary-font);
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	padding: 7px 15px 7px 15px;
+	background-color: var(--primary-orange);
+	color: #eeeeed;
+	width: 80%;
+}
+
+.dash-set-heading {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.dash-setting-list {
+	font-size: 18px;
 }
 
 /*INVENTORY*/
@@ -392,6 +433,15 @@ hr.dash-line-m {
 	padding-bottom: 12px;
 }
 
+#barcode-entry {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 30%;
+	padding-left: 8px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
 #product-entry-m {
 	margin-top: 6px;
 	margin-bottom: 20px;
@@ -402,6 +452,15 @@ hr.dash-line-m {
 }
 
 #quantity-entry-m {
+	margin-top: 6px;
+	margin-bottom: 20px;
+	width: 80%;
+	padding-left: 7px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+#barcode-entry-m {
 	margin-top: 6px;
 	margin-bottom: 20px;
 	width: 80%;

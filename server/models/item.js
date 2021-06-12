@@ -5,9 +5,10 @@ const itemSchema = new mongoose.Schema({
 	creator: { type: String, default: '' },
 	lastUpdated: { type: Date, default: new Date() },
 	nameOfItem: { type: String, default: '' },
-	distributer: { type: Array, default: '' },
+	barcode: { type: String, default: '' },
+	distributer: { type: String, default: '' },
 	quantityRemaining: { type: String, default: '' },
-	category: { type: Array, default: '' },
+	category: { type: String, default: '' },
 });
 
 const Item = mongoose.model('Item', itemSchema);

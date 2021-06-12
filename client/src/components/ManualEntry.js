@@ -3,10 +3,12 @@ import Navbar from './Navbar';
 import Loading from './Loading';
 import { useDispatch } from 'react-redux';
 import { saveItem, editItem } from '../actions/inventory';
+import { useHistory } from 'react-router-dom';
 
 function ManualEntry({ items, settings }) {
 	//set variables
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ function ManualEntry({ items, settings }) {
 		category: '',
 		distributer: '',
 		nameOfItem: '',
+		barcode: '',
 	});
 
 	//set loading screen
@@ -44,19 +47,27 @@ function ManualEntry({ items, settings }) {
 	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');
 
 	//save data entry
-	const saveItemData = () => {
-		const match = thisUsersItems.filter(
-			(item) => item.nameOfItem === itemData.nameOfItem,
-		);
-		if (match) {
-			dispatch(editItem(match._id, { ...itemData }));
+	const saveItemData = (e) => {
+		e.preventDefault();
+		if (thisUsersItems.length > 0) {
+			const match = thisUsersItems.filter(
+				(item) => item.barcode === itemData.barcode,
+			);
+			if (match.length !== 0) {
+				dispatch(editItem(match[0]._id, { ...itemData }));
+				alert('Item saved successfully.');
+				history.push('/manual-entry');
+			} else {
+				dispatch(saveItem({ itemData }));
+				alert('Item saved successfully.');
+				history.push('/manual-entry');
+			}
 		} else {
 			dispatch(saveItem({ itemData }));
+			alert('Item saved successfully.');
+			history.push('/manual-entry');
 		}
-		alert('Item saved successfully.');
 	};
-
-	console.log(itemData);
 
 	return (
 		<>
@@ -98,11 +109,31 @@ function ManualEntry({ items, settings }) {
 													name='product'
 													type='text'
 													id='product-entry'
+													required
 													value={itemData.nameOfItem}
 													onChange={(e) =>
 														setItemData({
 															...itemData,
 															nameOfItem:
+																e.target.value,
+														})
+													}
+												/>
+												<br />
+												<label htmlFor='barcode'>
+													Barcode:
+												</label>
+												<br />
+												<input
+													name='barcode'
+													type='text'
+													id='barcode-entry'
+													required
+													value={itemData.barcode}
+													onChange={(e) =>
+														setItemData({
+															...itemData,
+															barcode:
 																e.target.value,
 														})
 													}
@@ -116,6 +147,7 @@ function ManualEntry({ items, settings }) {
 													name='quantity'
 													type='text'
 													id='quantity-entry'
+													required
 													value={
 														itemData.quantityRemaining
 													}
@@ -145,6 +177,7 @@ function ManualEntry({ items, settings }) {
 												<select
 													name='distributer'
 													id='distributer-select'
+													required
 													onChange={(e) =>
 														setItemData({
 															...itemData,
@@ -185,6 +218,7 @@ function ManualEntry({ items, settings }) {
 												<select
 													name='category'
 													id='category-select'
+													required
 													onChange={(e) =>
 														setItemData({
 															...itemData,
@@ -264,12 +298,31 @@ function ManualEntry({ items, settings }) {
 												name='product'
 												type='text'
 												id='product-entry-m'
+												required
 												value={itemData.nameOfItem}
 												onChange={(e) =>
 													setItemData({
 														...itemData,
 														nameOfItem:
 															e.target.value,
+													})
+												}
+											/>
+											<br />
+											<label htmlFor='barcode'>
+												Barcode:
+											</label>
+											<br />
+											<input
+												name='barcode'
+												type='text'
+												id='barcode-entry-m'
+												required
+												value={itemData.barcode}
+												onChange={(e) =>
+													setItemData({
+														...itemData,
+														barcode: e.target.value,
 													})
 												}
 											/>
@@ -282,6 +335,7 @@ function ManualEntry({ items, settings }) {
 												name='quantity'
 												type='text'
 												id='product-entry-m'
+												required
 												value={
 													itemData.quantityRemaining
 												}
@@ -310,6 +364,7 @@ function ManualEntry({ items, settings }) {
 											<select
 												name='distributer'
 												id='distributer-select-m'
+												required
 												onChange={(e) =>
 													setItemData({
 														...itemData,
@@ -349,6 +404,7 @@ function ManualEntry({ items, settings }) {
 											<select
 												name='category'
 												id='category-select-m'
+												required
 												onChange={(e) =>
 													setItemData({
 														...itemData,
