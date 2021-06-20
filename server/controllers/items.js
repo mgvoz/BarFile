@@ -42,6 +42,7 @@ export const editItem = async (req, res) => {
 		quantityRemaining,
 		category,
 		barcode,
+		image,
 	} = req.body;
 
 	if (!mongoose.Types.ObjectId.isValid(id))
@@ -56,6 +57,7 @@ export const editItem = async (req, res) => {
 		quantityRemaining,
 		category,
 		barcode,
+		image,
 		_id: id,
 	};
 	await Item.findByIdAndUpdate(id, updatedItem, { new: true });

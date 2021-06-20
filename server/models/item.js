@@ -9,6 +9,7 @@ const itemSchema = new mongoose.Schema({
 	distributer: { type: String, default: '' },
 	quantityRemaining: { type: String, default: '' },
 	category: { type: String, default: '' },
+	image: { type: String, default: '' },
 });
 
 const Item = mongoose.model('Item', itemSchema);

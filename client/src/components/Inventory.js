@@ -18,6 +18,7 @@ function Inventory({ items, settings }) {
 	const history = useHistory();
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const [width, setWidth] = useState(0);
+	const [currentItem, setCurrentItem] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [scannedItems, setScannedItems] = useState([]);
 	const [itemData, setItemData] = useState({
@@ -29,6 +30,7 @@ function Inventory({ items, settings }) {
 		distributer: '',
 		nameOfItem: '',
 		barcode: '',
+		image: '',
 	});
 
 	//set loading screen
@@ -93,7 +95,6 @@ function Inventory({ items, settings }) {
 					if (data.length > 0) {
 						code = data[0].rawValue;
 						setItemData({ ...itemData, barcode: code });
-						//setScannedItems([...scannedItems, code]);
 						apiLookup(code);
 					}
 				})
@@ -107,27 +108,33 @@ function Inventory({ items, settings }) {
 	let key = '91990a226f804b428cb02a40c9f5b1d9';
 	const apiLookup = (code) => {
 		const url =
-			'https://api.apigenius.io/products/lookup?upc=' +
+			'https://mgcorsproxy.herokuapp.com/https://api.apigenius.io/products/lookup?upc=' +
 			code +
 			'&api_key=' +
 			key;
-		fetch(url, { mode: 'no-cors' })
+		fetch(url)
 			.then((res) => {
-				if (res.ok) {
-					console.log(res);
-					return res.text();
-				} else {
+				if (!res.ok) {
 					console.log('failure');
 				}
+				return res.json();
 			})
 			.then((data) => {
-				console.log(data);
-				setScannedItems([...scannedItems, data]);
+				setItemData({
+					...itemData,
+					nameOfItem: data.items.title,
+					image: data.items.images[0],
+				});
+				setScannedItems([...scannedItems, data.items.title]);
 			})
 			.catch((err) => console.log(err));
 	};
 
-	setInterval(findBarcode, 2000);
+	setInterval(findBarcode, 4000);
+
+	const currentItemInfo = scannedItems.filter(
+		(i) => i === itemData.nameOfItem,
+	);
 
 	//slider/form
 	const saveItemData = (e) => {
@@ -151,6 +158,10 @@ function Inventory({ items, settings }) {
 			history.push('/inventory');
 		}
 	};
+
+	console.log(scannedItems);
+	console.log(itemData);
+	console.log(currentItemInfo);
 
 	return (
 		<>
@@ -235,6 +246,9 @@ function Inventory({ items, settings }) {
 																		key={
 																			key
 																		}
+																		onClick={setCurrentItem(
+																			item,
+																		)}
 																	>
 																		{'  ' +
 																			item}
@@ -264,12 +278,10 @@ function Inventory({ items, settings }) {
 														will be added to you
 														order list.
 														<div className='btl-img'>
-															(bottle shape and
-															slider here, onClick
-															of item above, show
-															bottle shape, store
-															item info and
-															quatity to DB)
+															<img
+																src='{}'
+																alt=''
+															/>
 														</div>
 													</div>
 													<form
@@ -528,11 +540,7 @@ function Inventory({ items, settings }) {
 													item will be added to you
 													order list.
 													<div className='btl-img'>
-														(bottle shape and slider
-														here, onClick of item
-														above, show bottle
-														shape, store item info
-														and quatity to DB)
+														<img src='{}' alt='' />
 													</div>
 												</div>
 												<form onSubmit={saveItemData}>
