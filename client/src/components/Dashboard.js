@@ -104,9 +104,11 @@ function Dashboard({ items, settings }) {
 												{mostRecentItems.map((item) => (
 													<li className='dash-list-item'>
 														{item.nameOfItem} |{' '}
-														{item.quantityRemaining}{' '}
-														remaining |{' '}
-														{item.category} |{' '}
+														{item.quantityRemaining
+															? item.quantityRemaining +
+															  ' remaining '
+															: 'No quantity entered '}
+														| {item.category} |{' '}
 														{item.distributer}
 													</li>
 												))}
@@ -182,9 +184,11 @@ function Dashboard({ items, settings }) {
 												{mostRecentItems.map((item) => (
 													<li className='dash-list-item'>
 														{item.nameOfItem} |{' '}
-														{item.quantityRemaining}{' '}
-														remaining |{' '}
-														{item.category} |{' '}
+														{item.quantityRemaining
+															? item.quantityRemaining +
+															  ' remaining '
+															: 'No quantity entered '}
+														| {item.category} |{' '}
 														{item.distributer}
 													</li>
 												))}

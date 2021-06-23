@@ -485,6 +485,8 @@ hr.dash-line-m {
 	max-width: 50%;
 	height: 300px;
 	margin-top: 20px;
+	font-family: var(--secondary-font);
+	color: var(--primary-orange);
 }
 
 .inventory-settings {

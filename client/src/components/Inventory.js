@@ -20,7 +20,8 @@ function Inventory({ items, settings }) {
 	const [width, setWidth] = useState(0);
 	const [currentItem, setCurrentItem] = useState('');
 	const [loading, setLoading] = useState(true);
-	const [scannedItems, setScannedItems] = useState([]);
+	//const [scannedItems, setScannedItems] = useState([]);
+	let scannedItems = [];
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
 		creator: user?.result?.googleId || user?.result?._id,
@@ -53,6 +54,7 @@ function Inventory({ items, settings }) {
 			user?.result?._id === s?.creator,
 	);
 
+	//get individual distributers and categories for drop-down menu
 	const distributers = thisUsersSettings[0]?.distributers[0]?.split(', ');
 	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');
 
@@ -92,9 +94,8 @@ function Inventory({ items, settings }) {
 			barcodeDetector
 				.detect(document.getElementById('video'))
 				.then((data) => {
-					if (data.length > 0) {
+					if (data.length === 1) {
 						code = data[0].rawValue;
-						setItemData({ ...itemData, barcode: code });
 						apiLookup(code);
 					}
 				})
@@ -120,23 +121,29 @@ function Inventory({ items, settings }) {
 				return res.json();
 			})
 			.then((data) => {
-				setItemData({
-					...itemData,
-					nameOfItem: data.items.title,
-					image: data.items.images[0],
-				});
-				setScannedItems([...scannedItems, data.items.title]);
+				if (data) {
+					setItemData({
+						...itemData,
+						nameOfItem: data.items.title,
+						image: data.items.images[0],
+						barcode: data.items.upc,
+					});
+					scannedItems.push(itemData);
+				}
 			})
 			.catch((err) => console.log(err));
 	};
 
 	setInterval(findBarcode, 4000);
 
+	//get info for selected scanned item
 	const currentItemInfo = scannedItems.filter(
-		(i) => i === itemData.nameOfItem,
+		(i) => i === currentItem.nameOfItem,
 	);
 
-	//slider/form
+	//slider
+
+	// submit form
 	const saveItemData = (e) => {
 		e.preventDefault();
 		if (thisUsersItems.length > 0) {
@@ -159,9 +166,10 @@ function Inventory({ items, settings }) {
 		}
 	};
 
-	console.log(scannedItems);
-	console.log(itemData);
-	console.log(currentItemInfo);
+	console.log('scannedItems: ', scannedItems);
+	console.log('itemData: ', itemData);
+	console.log('currentItemInfo: ', currentItemInfo);
+	console.log('currentItem: ', currentItem);
 
 	return (
 		<>
@@ -239,28 +247,34 @@ function Inventory({ items, settings }) {
 													</p>
 													<div className='item-info'>
 														<ol>
-															{scannedItems.map(
-																(item, key) => (
-																	<li
-																		className='info-text'
-																		key={
-																			key
-																		}
-																		onClick={setCurrentItem(
+															{scannedItems.length >
+															0
+																? scannedItems.map(
+																		(
 																			item,
-																		)}
-																	>
-																		{'  ' +
-																			item}
-																	</li>
-																),
-															)}
+																			key,
+																		) => (
+																			<li
+																				className='info-text'
+																				key={
+																					key
+																				}
+																				onClick={setCurrentItem(
+																					item,
+																				)}
+																			>
+																				{'  ' +
+																					item.nameOfItem}
+																			</li>
+																		),
+																  )
+																: null}
 														</ol>
 													</div>
 													<button
 														className='clear-scans'
 														onClick={() =>
-															setScannedItems([])
+															(scannedItems = [])
 														}
 													>
 														Clear Scanned Items
@@ -278,10 +292,20 @@ function Inventory({ items, settings }) {
 														will be added to you
 														order list.
 														<div className='btl-img'>
-															<img
-																src='{}'
-																alt=''
-															/>
+															{currentItemInfo.length >
+															0 ? (
+																<img
+																	src={
+																		currentItemInfo?.image
+																	}
+																	alt='Selected item image'
+																/>
+															) : (
+																<p>
+																	No items
+																	yet.
+																</p>
+															)}
 														</div>
 													</div>
 													<form
@@ -509,23 +533,33 @@ function Inventory({ items, settings }) {
 												</p>
 												<div className='item-info'>
 													<ol>
-														{scannedItems.map(
-															(item, key) => (
-																<li
-																	className='info-text'
-																	key={key}
-																>
-																	{'  ' +
-																		item}
-																</li>
-															),
-														)}
+														{scannedItems.length > 0
+															? scannedItems.map(
+																	(
+																		item,
+																		key,
+																	) => (
+																		<li
+																			className='info-text'
+																			key={
+																				key
+																			}
+																			onClick={setCurrentItem(
+																				item,
+																			)}
+																		>
+																			{'  ' +
+																				item.nameOfItem}
+																		</li>
+																	),
+															  )
+															: null}
 													</ol>
 												</div>
 												<button
 													className='clear-scans-m'
 													onClick={() =>
-														setScannedItems([])
+														(scannedItems = [])
 													}
 												>
 													Clear Scanned Items
@@ -540,7 +574,17 @@ function Inventory({ items, settings }) {
 													item will be added to you
 													order list.
 													<div className='btl-img'>
-														<img src='{}' alt='' />
+														{currentItemInfo.length >
+														0 ? (
+															<img
+																src={
+																	currentItemInfo?.image
+																}
+																alt='Selected item image'
+															/>
+														) : (
+															<p>No items yet.</p>
+														)}
 													</div>
 												</div>
 												<form onSubmit={saveItemData}>
