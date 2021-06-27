@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { saveItem, editItem } from '../actions/inventory';
 import Loading from './Loading';
-import { useHistory } from 'react-router-dom';
+import bottle from '../images/stock_bottle.png';
 
 function Inventory({ items, settings }) {
 	/*****************************************************
@@ -15,13 +15,9 @@ function Inventory({ items, settings }) {
 
 	//set variables
 	const dispatch = useDispatch();
-	const history = useHistory();
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const [width, setWidth] = useState(0);
-	const [currentItem, setCurrentItem] = useState('');
 	const [loading, setLoading] = useState(true);
-	//const [scannedItems, setScannedItems] = useState([]);
-	let scannedItems = [];
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
 		creator: user?.result?.googleId || user?.result?._id,
@@ -106,7 +102,7 @@ function Inventory({ items, settings }) {
 	};
 
 	//api barcode lookup
-	let key = '91990a226f804b428cb02a40c9f5b1d9';
+	let key = '5b2dcf9414984660bc55ab55efb6bcb8';
 	const apiLookup = (code) => {
 		const url =
 			'https://mgcorsproxy.herokuapp.com/https://api.apigenius.io/products/lookup?upc=' +
@@ -121,25 +117,17 @@ function Inventory({ items, settings }) {
 				return res.json();
 			})
 			.then((data) => {
-				if (data) {
-					setItemData({
-						...itemData,
-						nameOfItem: data.items.title,
-						image: data.items.images[0],
-						barcode: data.items.upc,
-					});
-					scannedItems.push(itemData);
-				}
+				setItemData({
+					...itemData,
+					nameOfItem: data.items.title,
+					image: data.items.images[0],
+					barcode: data.items.upc,
+				});
 			})
 			.catch((err) => console.log(err));
 	};
 
 	setInterval(findBarcode, 4000);
-
-	//get info for selected scanned item
-	const currentItemInfo = scannedItems.filter(
-		(i) => i === currentItem.nameOfItem,
-	);
 
 	//slider
 
@@ -153,23 +141,20 @@ function Inventory({ items, settings }) {
 			if (match.length !== 0) {
 				dispatch(editItem(match[0]._id, { ...itemData }));
 				alert('Item saved successfully.');
-				history.push('/inventory');
+				window.location.reload();
 			} else {
 				dispatch(saveItem({ itemData }));
 				alert('Item saved successfully.');
-				history.push('/inventory');
+				window.location.reload();
 			}
 		} else {
 			dispatch(saveItem({ itemData }));
 			alert('Item saved successfully.');
-			history.push('/inventory');
+			window.location.reload();
 		}
 	};
 
-	console.log('scannedItems: ', scannedItems);
 	console.log('itemData: ', itemData);
-	console.log('currentItemInfo: ', currentItemInfo);
-	console.log('currentItem: ', currentItem);
 
 	return (
 		<>
@@ -243,219 +228,244 @@ function Inventory({ items, settings }) {
 														available.
 													</video>
 													<p className='barcode-p'>
-														Scanned item(s):
+														Scanned item:
 													</p>
 													<div className='item-info'>
-														<ol>
-															{scannedItems.length >
-															0
-																? scannedItems.map(
-																		(
-																			item,
-																			key,
-																		) => (
-																			<li
-																				className='info-text'
-																				key={
-																					key
-																				}
-																				onClick={setCurrentItem(
-																					item,
-																				)}
-																			>
-																				{'  ' +
-																					item.nameOfItem}
-																			</li>
-																		),
-																  )
-																: null}
-														</ol>
+														<p>
+															{itemData?.nameOfItem !==
+															''
+																? itemData.nameOfItem
+																: 'No item scanned yet.'}
+														</p>
 													</div>
 													<button
 														className='clear-scans'
 														onClick={() =>
-															(scannedItems = [])
+															setItemData({
+																nameOfUser:
+																	user?.result
+																		?.name,
+																creator:
+																	user?.result
+																		?.googleId ||
+																	user?.result
+																		?._id,
+																lastUpdated:
+																	new Date().toDateString(),
+																quantityRemaining:
+																	'',
+																category: '',
+																distributer: '',
+																nameOfItem: '',
+																barcode: '',
+																image: '',
+															})
 														}
 													>
-														Clear Scanned Items
+														Clear Scanned Item
 													</button>
 													<br />
 													<div className='set-amt'>
-														Click on a scanned item
-														above, and use the
-														slider below to
-														represent quantity
-														remaining. If the
-														quantity remaining is at
-														or below your set
-														threshold, this item
-														will be added to you
-														order list.
-														<div className='btl-img'>
-															{currentItemInfo.length >
-															0 ? (
-																<img
-																	src={
-																		currentItemInfo?.image
-																	}
-																	alt='Selected item image'
-																/>
-															) : (
-																<p>
-																	No items
-																	yet.
-																</p>
-															)}
-														</div>
+														{itemData?.image !==
+														'' ? (
+															<p>
+																Use the slider
+																below to
+																represent
+																quantity
+																remaining. If
+																the quantity
+																remaining is at
+																or below your
+																set threshold,
+																this item will
+																be added to you
+																order list.
+															</p>
+														) : null}
 													</div>
-													<form
-														onSubmit={saveItemData}
-													>
-														<p className='quantity'>
-															Quantity:{' '}
-															<b>{''}</b>
-														</p>
-														<p className='threshold-info'>
-															{thisUsersSettings.length ===
-															0
-																? 'Please set your desired distributers, threshold, and categories on the Settings page.'
-																: 'Your threshold is currently set to ' +
-																  thisUsersSettings[0]
-																		.threshold +
-																  '.'}
-														</p>
-														<p>
-															Which distributer do
-															you typically order
-															this product from?
-														</p>
-														<select
-															name='distributer'
-															id='distributer-select'
-															required
-															onChange={(e) =>
-																setItemData({
-																	...itemData,
-																	distributer:
-																		e.target
-																			.value,
-																})
+													<div className='btl-img-div'>
+														<center>
+															{itemData?.image !==
+															'' ? (
+																<img
+																	className='btl-img'
+																	src={
+																		itemData.image ===
+																		undefined
+																			? bottle
+																			: itemData.image
+																	}
+																	alt='Scanned item image'
+																/>
+															) : null}
+														</center>
+													</div>
+													{itemData.nameOfItem !==
+													'' ? (
+														<form
+															onSubmit={
+																saveItemData
 															}
 														>
-															<option
-																selected
-																disabled
+															<p className='quantity'>
+																Quantity:{' '}
+																<b>{''}</b>
+															</p>
+															<p className='threshold-info'>
+																{thisUsersSettings.length ===
+																0
+																	? 'Please set your desired distributers, threshold, and categories on the Settings page.'
+																	: 'Your threshold is currently set to ' +
+																	  thisUsersSettings[0]
+																			.threshold +
+																	  '.'}
+															</p>
+															<p>
+																Which
+																distributer do
+																you typically
+																order this
+																product from?
+															</p>
+															<select
+																name='distributer'
+																id='distributer-select'
+																required
+																onChange={(e) =>
+																	setItemData(
+																		{
+																			...itemData,
+																			distributer:
+																				e
+																					.target
+																					.value,
+																		},
+																	)
+																}
 															>
-																Select
-																Distributer
-															</option>
-															{thisUsersSettings[0]
-																?.length ===
-															0 ? (
 																<option
+																	selected
 																	disabled
 																>
-																	No
-																	Distributers
-																	Available -
-																	Set your
-																	Distributers
-																	on the
-																	Settings
-																	Page.
+																	Select
+																	Distributer
 																</option>
-															) : (
-																distributers?.map(
-																	(
-																		dist,
-																		key,
-																	) => (
-																		<option
-																			key={
-																				key
-																			}
-																			value={
-																				dist
-																			}
-																		>
-																			{
-																				dist
-																			}
-																		</option>
-																	),
-																)
-															)}
-														</select>
-														<br />
-														<p>
-															Which category does
-															this product belong
-															to?
-														</p>
-														<select
-															name='category'
-															id='category-select'
-															required
-															onChange={(e) =>
-																setItemData({
-																	...itemData,
-																	category:
-																		e.target
-																			.value,
-																})
-															}
-														>
-															<option
-																selected
-																disabled
+																{thisUsersSettings[0]
+																	?.length ===
+																0 ? (
+																	<option
+																		disabled
+																	>
+																		No
+																		Distributers
+																		Available
+																		- Set
+																		your
+																		Distributers
+																		on the
+																		Settings
+																		Page.
+																	</option>
+																) : (
+																	distributers?.map(
+																		(
+																			dist,
+																			key,
+																		) => (
+																			<option
+																				key={
+																					key
+																				}
+																				value={
+																					dist
+																				}
+																			>
+																				{
+																					dist
+																				}
+																			</option>
+																		),
+																	)
+																)}
+															</select>
+															<br />
+															<p>
+																Which category
+																does this
+																product belong
+																to?
+															</p>
+															<select
+																name='category'
+																id='category-select'
+																required
+																onChange={(e) =>
+																	setItemData(
+																		{
+																			...itemData,
+																			category:
+																				e
+																					.target
+																					.value,
+																		},
+																	)
+																}
 															>
-																Select Category
-															</option>
-															{thisUsersSettings[0]
-																?.length ===
-															0 ? (
 																<option
+																	selected
 																	disabled
 																>
-																	No
-																	Categories
-																	Available -
-																	Set your
-																	Categories
-																	on the
-																	Settings
-																	Page.
+																	Select
+																	Category
 																</option>
-															) : (
-																categories?.map(
-																	(
-																		cat,
-																		key,
-																	) => (
-																		<option
-																			key={
-																				key
-																			}
-																			value={
-																				cat
-																			}
-																		>
-																			{
-																				cat
-																			}
-																		</option>
-																	),
-																)
-															)}
-														</select>
-														<br />
-														<button
-															className='save-quantity'
-															type='submit'
-														>
-															Save This Item
-														</button>
-													</form>
+																{thisUsersSettings[0]
+																	?.length ===
+																0 ? (
+																	<option
+																		disabled
+																	>
+																		No
+																		Categories
+																		Available
+																		- Set
+																		your
+																		Categories
+																		on the
+																		Settings
+																		Page.
+																	</option>
+																) : (
+																	categories?.map(
+																		(
+																			cat,
+																			key,
+																		) => (
+																			<option
+																				key={
+																					key
+																				}
+																				value={
+																					cat
+																				}
+																			>
+																				{
+																					cat
+																				}
+																			</option>
+																		),
+																	)
+																)}
+															</select>
+															<br />
+															<button
+																className='save-quantity'
+																type='submit'
+															>
+																Save This Item
+															</button>
+														</form>
+													) : null}
 												</center>
 											</>
 										)}
@@ -529,184 +539,222 @@ function Inventory({ items, settings }) {
 													Video stream not available.
 												</video>
 												<p className='barcode-p'>
-													Scanned item(s):
+													Scanned item:
 												</p>
 												<div className='item-info'>
-													<ol>
-														{scannedItems.length > 0
-															? scannedItems.map(
+													<p>
+														{itemData?.nameOfItem !==
+														''
+															? itemData.nameOfItem
+															: 'No item scanned yet.'}
+													</p>
+												</div>
+												<button
+													className='clear-scans'
+													onClick={() =>
+														setItemData({
+															nameOfUser:
+																user?.result
+																	?.name,
+															creator:
+																user?.result
+																	?.googleId ||
+																user?.result
+																	?._id,
+															lastUpdated:
+																new Date().toDateString(),
+															quantityRemaining:
+																'',
+															category: '',
+															distributer: '',
+															nameOfItem: '',
+															barcode: '',
+															image: '',
+														})
+													}
+												>
+													Clear Scanned Item
+												</button>
+												<div className='set-amt-m'>
+													{itemData?.image !== '' ? (
+														<p>
+															Use the slider below
+															to represent
+															quantity remaining.
+															If the quantity
+															remaining is at or
+															below your set
+															threshold, this item
+															will be added to you
+															order list.
+														</p>
+													) : null}
+												</div>
+												<div className='btl-img-div'>
+													<center>
+														{itemData?.image !==
+														'' ? (
+															<img
+																className='btl-img'
+																src={
+																	itemData.image ===
+																	undefined
+																		? bottle
+																		: itemData.image
+																}
+																alt='Scanned item image'
+															/>
+														) : null}
+													</center>
+												</div>
+												{itemData.nameOfItem !== '' ? (
+													<form
+														onSubmit={saveItemData}
+													>
+														<p className='quantity'>
+															Quantity:{' '}
+															<b>{''}</b>
+														</p>
+														<p className='threshold-info-m'>
+															{thisUsersSettings.length ===
+															0
+																? 'Please set your desired distributers, threshold, and categories on the Settings page.'
+																: 'Your threshold is currently set to ' +
+																  thisUsersSettings[0]
+																		.threshold +
+																  '.'}
+														</p>
+														<p>
+															Which distributer do
+															you typically order
+															this product from?
+														</p>
+														<select
+															name='distributer'
+															id='distributer-select-m'
+															required
+															onChange={(e) =>
+																setItemData({
+																	...itemData,
+																	distributer:
+																		e.target
+																			.value,
+																})
+															}
+														>
+															<option
+																selected
+																disabled
+															>
+																Select
+																Distributer
+															</option>
+															{thisUsersSettings[0]
+																?.length ===
+															0 ? (
+																<option
+																	disabled
+																>
+																	No
+																	Distributers
+																	Available -
+																	Set your
+																	Distributers
+																	on the
+																	Settings
+																	Page.
+																</option>
+															) : (
+																distributers?.map(
 																	(
-																		item,
+																		dist,
 																		key,
 																	) => (
-																		<li
-																			className='info-text'
+																		<option
 																			key={
 																				key
 																			}
-																			onClick={setCurrentItem(
-																				item,
-																			)}
+																			value={
+																				dist
+																			}
 																		>
-																			{'  ' +
-																				item.nameOfItem}
-																		</li>
+																			{
+																				dist
+																			}
+																		</option>
 																	),
-															  )
-															: null}
-													</ol>
-												</div>
-												<button
-													className='clear-scans-m'
-													onClick={() =>
-														(scannedItems = [])
-													}
-												>
-													Clear Scanned Items
-												</button>
-												<div className='set-amt-m'>
-													Click on a scanned item
-													above, and use the slider
-													below to represent quantity
-													remaining. If the quantity
-													remaining is at or below
-													your set threshold, this
-													item will be added to you
-													order list.
-													<div className='btl-img'>
-														{currentItemInfo.length >
-														0 ? (
-															<img
-																src={
-																	currentItemInfo?.image
-																}
-																alt='Selected item image'
-															/>
-														) : (
-															<p>No items yet.</p>
-														)}
-													</div>
-												</div>
-												<form onSubmit={saveItemData}>
-													<p className='quantity'>
-														Quantity: <b>{''}</b>
-													</p>
-													<p className='threshold-info-m'>
-														{thisUsersSettings.length ===
-														0
-															? 'Please set your desired distributers, threshold, and categories on the Settings page.'
-															: 'Your threshold is currently set to ' +
-															  thisUsersSettings[0]
-																	.threshold +
-															  '.'}
-													</p>
-													<p>
-														Which distributer do you
-														typically order this
-														product from?
-													</p>
-													<select
-														name='distributer'
-														id='distributer-select-m'
-														required
-														onChange={(e) =>
-															setItemData({
-																...itemData,
-																distributer:
-																	e.target
-																		.value,
-															})
-														}
-													>
-														<option
-															selected
-															disabled
+																)
+															)}
+														</select>
+														<p>
+															Which category does
+															this product belong
+															to?
+														</p>
+														<select
+															name='category'
+															id='category-select-m'
+															required
+															onChange={(e) =>
+																setItemData({
+																	...itemData,
+																	category:
+																		e.target
+																			.value,
+																})
+															}
 														>
-															Select Distributer
-														</option>
-														{thisUsersSettings[0]
-															?.length === 0 ? (
-															<option disabled>
-																No Distributers
-																Available - Set
-																your
-																Distributers on
-																the Settings
-																Page.
+															<option
+																selected
+																disabled
+															>
+																Select Category
 															</option>
-														) : (
-															distributers?.map(
-																(dist, key) => (
-																	<option
-																		key={
-																			key
-																		}
-																		value={
-																			dist
-																		}
-																	>
-																		{dist}
-																	</option>
-																),
-															)
-														)}
-													</select>
-													<p>
-														Which category does this
-														product belong to?
-													</p>
-													<select
-														name='category'
-														id='category-select-m'
-														required
-														onChange={(e) =>
-															setItemData({
-																...itemData,
-																category:
-																	e.target
-																		.value,
-															})
-														}
-													>
-														<option
-															selected
-															disabled
+															{thisUsersSettings[0]
+																?.length ===
+															0 ? (
+																<option
+																	disabled
+																>
+																	No
+																	Categories
+																	Available -
+																	Set your
+																	Categories
+																	on the
+																	Settings
+																	Page.
+																</option>
+															) : (
+																categories?.map(
+																	(
+																		cat,
+																		key,
+																	) => (
+																		<option
+																			key={
+																				key
+																			}
+																			value={
+																				cat
+																			}
+																		>
+																			{
+																				cat
+																			}
+																		</option>
+																	),
+																)
+															)}
+														</select>
+														<button
+															className='save-quantity-m'
+															type='submit'
 														>
-															Select Category
-														</option>
-														{thisUsersSettings[0]
-															?.length === 0 ? (
-															<option disabled>
-																No Categories
-																Available - Set
-																your Categories
-																on the Settings
-																Page.
-															</option>
-														) : (
-															categories?.map(
-																(cat, key) => (
-																	<option
-																		key={
-																			key
-																		}
-																		value={
-																			cat
-																		}
-																	>
-																		{cat}
-																	</option>
-																),
-															)
-														)}
-													</select>
-													<button
-														className='save-quantity-m'
-														type='submit'
-													>
-														Save This Item
-													</button>
-												</form>
+															Save This Item
+														</button>
+													</form>
+												) : null}
 											</center>
 										</>
 									)}

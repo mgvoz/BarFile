@@ -117,10 +117,19 @@ function Dashboard({ items, settings }) {
 											<p>No items entered yet.</p>
 										)}
 									</div>
-									<h4 className='dash-subheading'>
-										Upcoming Orders
-									</h4>
-									<div className='dash-data'>(data here)</div>
+									<h4 className='dash-subheading'>Reports</h4>
+									<div className='dash-data'>
+										<p className='download-link'>
+											<b>All Inventory:</b> Download
+										</p>
+										<p className='download-link'>
+											<b>
+												Upcoming Order (all items that
+												fall below your set threshold):
+											</b>{' '}
+											Download
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -198,10 +207,19 @@ function Dashboard({ items, settings }) {
 										)}
 									</div>
 									<h4 className='dash-subheading-m'>
-										Upcoming Orders
+										Reports
 									</h4>
 									<div className='dash-data-m'>
-										(data here)
+										<p className='download-link'>
+											<b>All Inventory:</b> Download
+										</p>
+										<p className='download-link'>
+											<b>
+												Upcoming Order (all items that
+												fall below your set threshold):
+											</b>{' '}
+											Download
+										</p>
 									</div>
 								</div>
 							</div>
