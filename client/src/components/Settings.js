@@ -10,7 +10,7 @@ import {
 import Loading from './Loading';
 const CurrentSettings = React.lazy(() => import('./CurrentSettings'));
 
-function Settings({ settings }) {
+function Settings({ thisUsersSettings }) {
 	//set variables
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const dispatch = useDispatch();
@@ -24,13 +24,6 @@ function Settings({ settings }) {
 		setTimeout(() => setLoading(false), 4000);
 		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
-
-	//get current user's settings
-	const thisUsersSettings = settings.filter(
-		(s) =>
-			user?.result?.googleId === s?.creator ||
-			user?.result?._id === s?.creator,
-	);
 
 	//state to gather settings data
 	useEffect(() => {

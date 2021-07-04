@@ -2,31 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Loading from './Loading';
 import Navbar from './Navbar';
 
-function Dashboard({ items, settings }) {
+function Dashboard({ thisUsersSettings, thisUsersItems }) {
 	//set variables
 	const [loading, setLoading] = useState(true);
 	const [width, setWidth] = useState(0);
-	const user = JSON.parse(localStorage.getItem('profile'));
 
 	//set loading screen
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 4000);
 		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
-
-	//get current user's items
-	const thisUsersItems = items.filter(
-		(i) =>
-			user?.result?.googleId === i?.creator ||
-			user?.result?._id === i?.creator,
-	);
-
-	//get current user's settings
-	const thisUsersSettings = settings.filter(
-		(s) =>
-			user?.result?.googleId === s?.creator ||
-			user?.result?._id === s?.creator,
-	);
 
 	//sort items for 5 most recent
 	const sortedItems = thisUsersItems

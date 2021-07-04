@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { saveItem, editItem } from '../actions/inventory';
 import { useHistory } from 'react-router-dom';
 
-function ManualEntry({ items, settings }) {
+function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 	//set variables
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -28,20 +28,6 @@ function ManualEntry({ items, settings }) {
 		setTimeout(() => setLoading(false), 4000);
 		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
-
-	//get current user's items
-	const thisUsersItems = items.filter(
-		(i) =>
-			user?.result?.googleId === i?.creator ||
-			user?.result?._id === i?.creator,
-	);
-
-	//get current user's settings
-	const thisUsersSettings = settings.filter(
-		(s) =>
-			user?.result?.googleId === s?.creator ||
-			user?.result?._id === s?.creator,
-	);
 
 	const distributers = thisUsersSettings[0]?.distributers[0]?.split(', ');
 	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');

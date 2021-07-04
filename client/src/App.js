@@ -14,6 +14,7 @@ import { getItems } from './actions/inventory';
 
 function App() {
 	const dispatch = useDispatch();
+	const user = JSON.parse(localStorage.getItem('profile'));
 	const settings = useSelector((state) => state.settings);
 	const items = useSelector((state) => state.items);
 
@@ -28,6 +29,20 @@ function App() {
 		dispatch(getItems());
 	}, [currentItemId, dispatch]);
 
+	//get current user's items
+	const thisUsersItems = items.filter(
+		(i) =>
+			user?.result?.googleId === i?.creator ||
+			user?.result?._id === i?.creator,
+	);
+
+	//get current user's settings
+	const thisUsersSettings = settings.filter(
+		(s) =>
+			user?.result?.googleId === s?.creator ||
+			user?.result?._id === s?.creator,
+	);
+
 	return (
 		<>
 			<BrowserRouter>
@@ -36,16 +51,25 @@ function App() {
 						<Home />
 					</Route>
 					<Route path='/dashboard'>
-						<Dashboard items={items} settings={settings} />
+						<Dashboard
+							thisUsersItems={thisUsersItems}
+							thisUsersSettings={thisUsersSettings}
+						/>
 					</Route>
 					<Route path='/settings'>
-						<Settings settings={settings} />
+						<Settings thisUsersSettings={thisUsersSettings} />
 					</Route>
 					<Route path='/inventory'>
-						<Inventory items={items} settings={settings} />
+						<Inventory
+							thisUsersItems={thisUsersItems}
+							thisUsersSettings={thisUsersSettings}
+						/>
 					</Route>
 					<Route path='/manual-entry'>
-						<ManualEntry items={items} settings={settings} />
+						<ManualEntry
+							thisUsersItems={thisUsersItems}
+							thisUsersSettings={thisUsersSettings}
+						/>
 					</Route>
 				</Switch>
 				<Footer />

@@ -6,7 +6,7 @@ import { saveItem, editItem } from '../actions/inventory';
 import Loading from './Loading';
 import bottle from '../images/stock_bottle.png';
 
-function Inventory({ items, settings }) {
+function Inventory({ thisUsersItems, thisUsersSettings }) {
 	/*****************************************************
 	- add onChange event to slider to show quantity and add to state
 	- add functionality to select individual items and save them with itemData state- replace 'this product' in form with product selected
@@ -15,8 +15,8 @@ function Inventory({ items, settings }) {
 
 	//set variables
 	const dispatch = useDispatch();
-	const user = JSON.parse(localStorage.getItem('profile'));
 	const [width, setWidth] = useState(0);
+	const user = JSON.parse(localStorage.getItem('profile'));
 	const [loading, setLoading] = useState(true);
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
@@ -35,20 +35,6 @@ function Inventory({ items, settings }) {
 		setTimeout(() => setLoading(false), 4000);
 		setTimeout(() => setWidth(window.innerWidth), 4000);
 	}, []);
-
-	//get current user's items
-	const thisUsersItems = items.filter(
-		(i) =>
-			user?.result?.googleId === i?.creator ||
-			user?.result?._id === i?.creator,
-	);
-
-	//get current user's settings
-	const thisUsersSettings = settings.filter(
-		(s) =>
-			user?.result?.googleId === s?.creator ||
-			user?.result?._id === s?.creator,
-	);
 
 	//get individual distributers and categories for drop-down menu
 	const distributers = thisUsersSettings[0]?.distributers[0]?.split(', ');
