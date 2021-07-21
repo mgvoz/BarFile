@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Navbar from './Navbar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
 	createSettings,
@@ -10,7 +10,7 @@ import {
 import Loading from './Loading';
 const CurrentSettings = React.lazy(() => import('./CurrentSettings'));
 
-function Settings({ thisUsersSettings }) {
+function Settings() {
 	//set variables
 	const user = JSON.parse(localStorage.getItem('profile'));
 	const dispatch = useDispatch();
@@ -18,11 +18,18 @@ function Settings({ thisUsersSettings }) {
 	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [settingData, setSettingData] = useState({});
+	const settings = useSelector((state) =>
+		state.settings.filter(
+			(s) =>
+				user?.result?.googleId === s?.creator ||
+				user?.result?._id === s?.creator,
+		),
+	);
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 4000);
-		setTimeout(() => setWidth(window.innerWidth), 4000);
+		setTimeout(() => setLoading(false), 2000);
+		setTimeout(() => setWidth(window.innerWidth), 2000);
 	}, []);
 
 	//state to gather settings data
@@ -33,9 +40,9 @@ function Settings({ thisUsersSettings }) {
 					nameOfUser: user?.result?.name,
 					creator: user?.result?.googleId || user?.result?._id,
 					createdAt: new Date().toDateString(),
-					distributers: thisUsersSettings[0]?.distributers,
-					categories: thisUsersSettings[0]?.categories,
-					threshold: thisUsersSettings[0]?.threshold,
+					distributers: settings[0]?.distributers,
+					categories: settings[0]?.categories,
+					threshold: settings[0]?.threshold,
 				}),
 			1000,
 		);
@@ -47,9 +54,9 @@ function Settings({ thisUsersSettings }) {
 	//save user setting input
 	const saveSettings = (e) => {
 		e.preventDefault();
-		if (thisUsersSettings.length > 0) {
+		if (settings.length > 0) {
 			dispatch(
-				editSettings(thisUsersSettings[0]._id, {
+				editSettings(settings[0]._id, {
 					...settingData,
 				}),
 			);
@@ -68,8 +75,8 @@ function Settings({ thisUsersSettings }) {
 
 	//clear user's settings completely
 	const clearSettings = () => {
-		if (thisUsersSettings.length > 0) {
-			dispatch(deleteSetting(thisUsersSettings[0]?._id));
+		if (settings.length > 0) {
+			dispatch(deleteSetting(settings[0]?._id));
 			setSettingData({});
 			alert('Settings cleared!');
 		} else {
@@ -98,9 +105,7 @@ function Settings({ thisUsersSettings }) {
 											}
 										>
 											<CurrentSettings
-												thisUsersSettings={
-													thisUsersSettings
-												}
+												settings={settings}
 											/>
 										</Suspense>
 										<form onSubmit={saveSettings}>
@@ -208,11 +213,7 @@ function Settings({ thisUsersSettings }) {
 											<div>Loading Settings...</div>
 										}
 									>
-										<CurrentSettings
-											thisUsersSettings={
-												thisUsersSettings
-											}
-										/>
+										<CurrentSettings settings={settings} />
 									</Suspense>
 									<form onSubmit={saveSettings}>
 										<label htmlFor='distributers'>
@@ -293,9 +294,7 @@ function Settings({ thisUsersSettings }) {
 										id='clear-settings-btn-m'
 										onClick={() => {
 											dispatch(
-												deleteSetting(
-													thisUsersSettings[0]?._id,
-												),
+												deleteSetting(settings[0]?._id),
 											)
 												.then(() => {
 													setSettingData({});

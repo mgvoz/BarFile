@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { saveItem, editItem } from '../actions/inventory';
 import Loading from './Loading';
 import bottle from '../images/stock_bottle.png';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
-function Inventory({ thisUsersItems, thisUsersSettings }) {
+function Inventory() {
 	/*****************************************************
 	- add onChange event to slider to show quantity and add to state
-	- add functionality to select individual items and save them with itemData state- replace 'this product' in form with product selected
 	 
 	******************************************************/
 
@@ -17,6 +18,20 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 	const dispatch = useDispatch();
 	const [width, setWidth] = useState(0);
 	const user = JSON.parse(localStorage.getItem('profile'));
+	const settings = useSelector((state) =>
+		state.settings.filter(
+			(s) =>
+				user?.result?.googleId === s?.creator ||
+				user?.result?._id === s?.creator,
+		),
+	);
+	const items = useSelector((state) =>
+		state.items.filter(
+			(i) =>
+				user?.result?.googleId === i?.creator ||
+				user?.result?._id === i?.creator,
+		),
+	);
 	const [loading, setLoading] = useState(true);
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
@@ -32,13 +47,13 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 4000);
-		setTimeout(() => setWidth(window.innerWidth), 4000);
+		setTimeout(() => setLoading(false), 2000);
+		setTimeout(() => setWidth(window.innerWidth), 2000);
 	}, []);
 
 	//get individual distributers and categories for drop-down menu
-	const distributers = thisUsersSettings[0]?.distributers[0]?.split(', ');
-	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');
+	const distributers = settings[0]?.distributers[0]?.split(', ');
+	const categories = settings[0]?.categories[0]?.split(', ');
 
 	//access camera on device and stream
 	const getVideoStream = () => {
@@ -120,8 +135,8 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 	// submit form
 	const saveItemData = (e) => {
 		e.preventDefault();
-		if (thisUsersItems.length > 0) {
-			const match = thisUsersItems.filter(
+		if (items.length > 0) {
+			const match = items.filter(
 				(item) => item.barcode === itemData.barcode,
 			);
 			if (match.length !== 0) {
@@ -184,8 +199,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 													if you'd like to enter
 													inventory manually.
 												</h3>
-												{thisUsersSettings.length ===
-												0 ? (
+												{settings.length === 0 ? (
 													<p className='inventory-settings'>
 														<b>
 															Attention! Please
@@ -271,21 +285,40 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 														) : null}
 													</div>
 													<div className='btl-img-div'>
-														<center>
-															{itemData?.image !==
-															'' ? (
-																<img
-																	className='btl-img'
-																	src={
-																		itemData.image ===
-																		undefined
-																			? bottle
-																			: itemData.image
+														<div className='row align-items-center'>
+															<div className='col-6'>
+																{itemData?.image !==
+																'' ? (
+																	<img
+																		className='btl-img'
+																		src={
+																			itemData.image ===
+																			undefined
+																				? bottle
+																				: itemData.image
+																		}
+																		alt='Scanned item image'
+																	/>
+																) : null}
+															</div>
+															<div className='col-6'>
+																<Slider
+																	vertical={
+																		true
 																	}
-																	alt='Scanned item image'
+																	min={0}
+																	max={100}
+																	step={1}
+																	onChange={(
+																		value,
+																	) =>
+																		console.log(
+																			value,
+																		)
+																	}
 																/>
-															) : null}
-														</center>
+															</div>
+														</div>
 													</div>
 													{itemData.nameOfItem !==
 													'' ? (
@@ -299,11 +332,11 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 																<b>{''}</b>
 															</p>
 															<p className='threshold-info'>
-																{thisUsersSettings.length ===
+																{settings.length ===
 																0
 																	? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 																	: 'Your threshold is currently set to ' +
-																	  thisUsersSettings[0]
+																	  settings[0]
 																			.threshold +
 																	  '.'}
 															</p>
@@ -337,7 +370,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 																	Select
 																	Distributer
 																</option>
-																{thisUsersSettings[0]
+																{settings[0]
 																	?.length ===
 																0 ? (
 																	<option
@@ -405,7 +438,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 																	Select
 																	Category
 																</option>
-																{thisUsersSettings[0]
+																{settings[0]
 																	?.length ===
 																0 ? (
 																	<option
@@ -494,7 +527,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 												if you'd like to enter inventory
 												manually.
 											</h3>
-											{thisUsersSettings.length === 0 ? (
+											{settings.length === 0 ? (
 												<center>
 													<p className='inventory-settings'>
 														<b>
@@ -577,21 +610,37 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 													) : null}
 												</div>
 												<div className='btl-img-div'>
-													<center>
-														{itemData?.image !==
-														'' ? (
-															<img
-																className='btl-img'
-																src={
-																	itemData.image ===
-																	undefined
-																		? bottle
-																		: itemData.image
+													<div className='row align-items-center'>
+														<div className='col-6'>
+															{itemData?.image !==
+															'' ? (
+																<img
+																	className='btl-img'
+																	src={
+																		itemData.image ===
+																		undefined
+																			? bottle
+																			: itemData.image
+																	}
+																	alt='Scanned item image'
+																/>
+															) : null}
+														</div>
+														<div className='col-6'>
+															<Slider
+																vertical
+																min={0}
+																max={100}
+																onChange={(
+																	value,
+																) =>
+																	console.log(
+																		value,
+																	)
 																}
-																alt='Scanned item image'
 															/>
-														) : null}
-													</center>
+														</div>
+													</div>
 												</div>
 												{itemData.nameOfItem !== '' ? (
 													<form
@@ -602,11 +651,11 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 															<b>{''}</b>
 														</p>
 														<p className='threshold-info-m'>
-															{thisUsersSettings.length ===
+															{settings.length ===
 															0
 																? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 																: 'Your threshold is currently set to ' +
-																  thisUsersSettings[0]
+																  settings[0]
 																		.threshold +
 																  '.'}
 														</p>
@@ -635,7 +684,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 																Select
 																Distributer
 															</option>
-															{thisUsersSettings[0]
+															{settings[0]
 																?.length ===
 															0 ? (
 																<option
@@ -696,7 +745,7 @@ function Inventory({ thisUsersItems, thisUsersSettings }) {
 															>
 																Select Category
 															</option>
-															{thisUsersSettings[0]
+															{settings[0]
 																?.length ===
 															0 ? (
 																<option

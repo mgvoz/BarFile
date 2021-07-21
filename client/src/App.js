@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -14,10 +14,6 @@ import { getItems } from './actions/inventory';
 
 function App() {
 	const dispatch = useDispatch();
-	const user = JSON.parse(localStorage.getItem('profile'));
-	const settings = useSelector((state) => state.settings);
-	const items = useSelector((state) => state.items);
-
 	const [currentSettingId, setCurrentSettingId] = useState(0);
 	const [currentItemId, setCurrentItemId] = useState(0);
 
@@ -29,20 +25,6 @@ function App() {
 		dispatch(getItems());
 	}, [currentItemId, dispatch]);
 
-	//get current user's items
-	const thisUsersItems = items.filter(
-		(i) =>
-			user?.result?.googleId === i?.creator ||
-			user?.result?._id === i?.creator,
-	);
-
-	//get current user's settings
-	const thisUsersSettings = settings.filter(
-		(s) =>
-			user?.result?.googleId === s?.creator ||
-			user?.result?._id === s?.creator,
-	);
-
 	return (
 		<>
 			<BrowserRouter>
@@ -51,25 +33,16 @@ function App() {
 						<Home />
 					</Route>
 					<Route path='/dashboard'>
-						<Dashboard
-							thisUsersItems={thisUsersItems}
-							thisUsersSettings={thisUsersSettings}
-						/>
+						<Dashboard />
 					</Route>
 					<Route path='/settings'>
-						<Settings thisUsersSettings={thisUsersSettings} />
+						<Settings />
 					</Route>
 					<Route path='/inventory'>
-						<Inventory
-							thisUsersItems={thisUsersItems}
-							thisUsersSettings={thisUsersSettings}
-						/>
+						<Inventory />
 					</Route>
 					<Route path='/manual-entry'>
-						<ManualEntry
-							thisUsersItems={thisUsersItems}
-							thisUsersSettings={thisUsersSettings}
-						/>
+						<ManualEntry />
 					</Route>
 				</Switch>
 				<Footer />

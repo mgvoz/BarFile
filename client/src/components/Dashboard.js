@@ -1,29 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Loading from './Loading';
 import Navbar from './Navbar';
 
-function Dashboard({ thisUsersSettings, thisUsersItems }) {
+function Dashboard() {
 	//set variables
 	const [loading, setLoading] = useState(true);
 	const [width, setWidth] = useState(0);
+	const user = JSON.parse(localStorage.getItem('profile'));
+	const settings = useSelector((state) =>
+		state.settings.filter(
+			(s) =>
+				user?.result?.googleId === s?.creator ||
+				user?.result?._id === s?.creator,
+		),
+	);
+	const items = useSelector((state) =>
+		state.items.filter(
+			(i) =>
+				user?.result?.googleId === i?.creator ||
+				user?.result?._id === i?.creator,
+		),
+	);
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 4000);
-		setTimeout(() => setWidth(window.innerWidth), 4000);
+		setTimeout(() => setLoading(false), 2000);
+		setTimeout(() => setWidth(window.innerWidth), 2000);
 	}, []);
 
 	//sort items for 5 most recent
-	const sortedItems = thisUsersItems
+	const sortedItems = items
 		.slice()
 		.sort((a, b) => b.lastUpdated - a.lastUpdated);
 	const mostRecentItems = sortedItems.reverse().slice(0, 5);
 
 	//download to excel sheet
 
-	console.log(thisUsersItems);
-	console.log(sortedItems);
-	console.log(mostRecentItems);
+	console.log(settings);
+	console.log(items);
 
 	return (
 		<>
@@ -39,7 +54,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 									<h1 className='dash-heading'>Dashboard</h1>
 									<hr className='dash-line' />
 									<div className='dash-settings'>
-										{thisUsersSettings.length === 0 ? (
+										{settings.length === 0 ? (
 											<p className='dash-set-heading'>
 												Get started by establishing your
 												settings on the Settings page.
@@ -54,7 +69,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 													<b>
 														Distributers:{' '}
 														{
-															thisUsersSettings[0]
+															settings[0]
 																?.distributers
 														}
 													</b>
@@ -63,7 +78,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 													<b>
 														Categories:{' '}
 														{
-															thisUsersSettings[0]
+															settings[0]
 																?.categories
 														}
 													</b>
@@ -71,10 +86,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 												<p className='dash-setting-list'>
 													<b>
 														Threshold:{' '}
-														{
-															thisUsersSettings[0]
-																?.threshold
-														}
+														{settings[0]?.threshold}
 													</b>
 												</p>
 											</>
@@ -84,7 +96,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 										Recent Item Entries
 									</h4>
 									<div className='dash-data'>
-										{thisUsersItems.length > 0 ? (
+										{items.length > 0 ? (
 											<ol>
 												{mostRecentItems.map((item) => (
 													<li className='dash-list-item'>
@@ -128,7 +140,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 									</h1>
 									<hr className='dash-line-m' />
 									<div className='dash-settings-m'>
-										{thisUsersSettings.length === 0 ? (
+										{settings.length === 0 ? (
 											<p className='dash-set-heading'>
 												Get started by establishing your
 												settings on the Settings page.
@@ -143,7 +155,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 													<b>
 														Distributers:{' '}
 														{
-															thisUsersSettings[0]
+															settings[0]
 																?.distributers
 														}
 													</b>
@@ -152,7 +164,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 													<b>
 														Categories:{' '}
 														{
-															thisUsersSettings[0]
+															settings[0]
 																?.categories
 														}
 													</b>
@@ -160,10 +172,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 												<p className='dash-setting-list'>
 													<b>
 														Threshold:{' '}
-														{
-															thisUsersSettings[0]
-																?.threshold
-														}
+														{settings[0]?.threshold}
 													</b>
 												</p>
 											</>
@@ -173,7 +182,7 @@ function Dashboard({ thisUsersSettings, thisUsersItems }) {
 										Recent Item Entries
 									</h4>
 									<div className='dash-data-m'>
-										{thisUsersItems.length > 0 ? (
+										{items.length > 0 ? (
 											<ol>
 												{mostRecentItems.map((item) => (
 													<li className='dash-list-item'>

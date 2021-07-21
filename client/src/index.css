@@ -486,7 +486,7 @@ hr.dash-line-m {
 }
 
 .btl-img-div {
-	max-width: 50%;
+	max-width: 90%;
 	margin-top: 20px;
 	font-family: var(--secondary-font);
 	color: var(--primary-orange);

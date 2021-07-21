@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Loading from './Loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveItem, editItem } from '../actions/inventory';
 import { useHistory } from 'react-router-dom';
 
-function ManualEntry({ thisUsersSettings, thisUsersItems }) {
+function ManualEntry() {
 	//set variables
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const user = JSON.parse(localStorage.getItem('profile'));
+	const settings = useSelector((state) =>
+		state.settings.filter(
+			(s) =>
+				user?.result?.googleId === s?.creator ||
+				user?.result?._id === s?.creator,
+		),
+	);
+	const items = useSelector((state) =>
+		state.items.filter(
+			(i) =>
+				user?.result?.googleId === i?.creator ||
+				user?.result?._id === i?.creator,
+		),
+	);
 	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [itemData, setItemData] = useState({
@@ -25,18 +39,18 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 
 	//set loading screen
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 4000);
-		setTimeout(() => setWidth(window.innerWidth), 4000);
+		setTimeout(() => setLoading(false), 2000);
+		setTimeout(() => setWidth(window.innerWidth), 2000);
 	}, []);
 
-	const distributers = thisUsersSettings[0]?.distributers[0]?.split(', ');
-	const categories = thisUsersSettings[0]?.categories[0]?.split(', ');
+	const distributers = settings[0]?.distributers[0]?.split(', ');
+	const categories = settings[0]?.categories[0]?.split(', ');
 
 	//save data entry
 	const saveItemData = (e) => {
 		e.preventDefault();
-		if (thisUsersItems.length > 0) {
-			const match = thisUsersItems.filter(
+		if (items.length > 0) {
+			const match = items.filter(
 				(item) => item.barcode === itemData.barcode,
 			);
 			if (match.length !== 0) {
@@ -71,7 +85,7 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 									</h1>
 									<hr className='dash-line' />
 									<center>
-										{thisUsersSettings.length === 0 ? (
+										{settings.length === 0 ? (
 											<p className='inventory-settings'>
 												<b>
 													Attention! Please set your
@@ -147,11 +161,10 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 												/>
 												<br />
 												<p className='threshold-info'>
-													{thisUsersSettings.length ===
-													0
+													{settings.length === 0
 														? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 														: 'Your threshold is currently set to ' +
-														  thisUsersSettings[0]
+														  settings[0]
 																.threshold +
 														  '.'}
 												</p>
@@ -175,8 +188,8 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 													<option selected disabled>
 														Select Distributer
 													</option>
-													{thisUsersSettings[0]
-														?.length === 0 ? (
+													{settings[0]?.length ===
+													0 ? (
 														<option disabled>
 															No Distributers
 															Available - Set your
@@ -216,8 +229,8 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 													<option selected disabled>
 														Select Category
 													</option>
-													{thisUsersSettings[0]
-														?.length === 0 ? (
+													{settings[0]?.length ===
+													0 ? (
 														<option disabled>
 															No Categories
 															Available - Set your
@@ -258,7 +271,7 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 									Take Inventory
 								</h1>
 								<hr className='dash-line-m' />
-								{thisUsersSettings.length === 0 ? (
+								{settings.length === 0 ? (
 									<center>
 										<p className='inventory-settings'>
 											<b>
@@ -335,11 +348,10 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 											/>
 											<br />
 											<p className='threshold-info-m'>
-												{thisUsersSettings.length === 0
+												{settings.length === 0
 													? 'Please set your desired distributers, threshold, and categories on the Settings page.'
 													: 'Your threshold is currently set to ' +
-													  thisUsersSettings[0]
-															.threshold +
+													  settings[0].threshold +
 													  '.'}
 											</p>
 											<p>
@@ -362,8 +374,7 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 												<option selected disabled>
 													Select Distributer
 												</option>
-												{thisUsersSettings[0]
-													?.length === 0 ? (
+												{settings[0]?.length === 0 ? (
 													<option disabled>
 														No Distributers
 														Available - Set your
@@ -402,8 +413,7 @@ function ManualEntry({ thisUsersSettings, thisUsersItems }) {
 												<option selected disabled>
 													Select Category
 												</option>
-												{thisUsersSettings[0]
-													?.length === 0 ? (
+												{settings[0]?.length === 0 ? (
 													<option disabled>
 														No Categories Available
 														- Set your Categories on
