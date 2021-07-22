@@ -171,10 +171,6 @@ function Inventory() {
 		}
 	};
 
-	console.log('itemData: ', itemData);
-	console.log(bottleQuantity);
-	console.log(sliderQuantity);
-
 	return (
 		<>
 			{loading === false ? (

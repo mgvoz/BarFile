@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import ReactExport from 'react-export-excel';
 import Loading from './Loading';
 import Navbar from './Navbar';
 
@@ -35,10 +36,36 @@ function Dashboard() {
 		.sort((a, b) => b.lastUpdated - a.lastUpdated);
 	const mostRecentItems = sortedItems.reverse().slice(0, 5);
 
-	//download to excel sheet
+	//excel file export
+	const ExcelFile = ReactExport.ExcelFile;
+	const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+	const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+	const date = new Date();
+	const itemsBelowThreshold = items.filter(
+		(i) => i.quantityRemaining < parseFloat(settings[0]?.threshold),
+	);
+	let dataSet = [];
+	let dataSet2 = [];
 
-	console.log(settings);
-	console.log(items);
+	const createDataSet = () => {
+		items.forEach((i) =>
+			dataSet.push({
+				item: i.nameOfItem,
+				quantity: i.quantityRemaining,
+				category: i.category,
+				distributer: i.distributer,
+			}),
+		);
+		itemsBelowThreshold.forEach((i) =>
+			dataSet2.push({
+				item: i.nameOfItem,
+				quantity: i.quantityRemaining,
+				category: i.category,
+				distributer: i.distributer,
+			}),
+		);
+	};
+	createDataSet();
 
 	return (
 		<>
@@ -116,16 +143,74 @@ function Dashboard() {
 									</div>
 									<h4 className='dash-subheading'>Reports</h4>
 									<div className='dash-data'>
-										<p className='download-link'>
-											<b>All Inventory:</b> Download
-										</p>
-										<p className='download-link'>
-											<b>
-												Upcoming Order (all items that
-												fall below your set threshold):
-											</b>{' '}
-											Download
-										</p>
+										<ExcelFile
+											element={
+												<button className='dwnload-btn'>
+													Download All Inventory
+												</button>
+											}
+											filename={
+												'Bar Inventory ' +
+												date.toDateString()
+											}
+										>
+											<ExcelSheet
+												data={dataSet}
+												name='Bar Inventory'
+											>
+												<ExcelColumn
+													label='Item'
+													value='item'
+												/>
+												<ExcelColumn
+													label='Quantity Remaining'
+													value='quantity'
+												/>
+												<ExcelColumn
+													label='Category'
+													value='category'
+												/>
+												<ExcelColumn
+													label='Distributer'
+													value='distributer'
+												/>
+											</ExcelSheet>
+										</ExcelFile>
+										<br />
+										<ExcelFile
+											element={
+												<button className='dwnload-btn'>
+													Download All Inventory Below
+													Set Threshold
+												</button>
+											}
+											filename={
+												'Bar Inventory Below Threshold ' +
+												date.toDateString()
+											}
+										>
+											<ExcelSheet
+												data={dataSet2}
+												name='Bar Inventory Below Threshold'
+											>
+												<ExcelColumn
+													label='Item'
+													value='item'
+												/>
+												<ExcelColumn
+													label='Quantity Remaining'
+													value='quantity'
+												/>
+												<ExcelColumn
+													label='Category'
+													value='category'
+												/>
+												<ExcelColumn
+													label='Distributer'
+													value='distributer'
+												/>
+											</ExcelSheet>
+										</ExcelFile>
 									</div>
 								</div>
 							</div>
@@ -204,16 +289,74 @@ function Dashboard() {
 										Reports
 									</h4>
 									<div className='dash-data-m'>
-										<p className='download-link'>
-											<b>All Inventory:</b> Download
-										</p>
-										<p className='download-link'>
-											<b>
-												Upcoming Order (all items that
-												fall below your set threshold):
-											</b>{' '}
-											Download
-										</p>
+										<ExcelFile
+											element={
+												<button className='dwnload-btn'>
+													Download All Inventory
+												</button>
+											}
+											filename={
+												'Bar Inventory ' +
+												date.toDateString()
+											}
+										>
+											<ExcelSheet
+												data={dataSet}
+												name='Bar Inventory'
+											>
+												<ExcelColumn
+													label='Item'
+													value='item'
+												/>
+												<ExcelColumn
+													label='Quantity Remaining'
+													value='quantity'
+												/>
+												<ExcelColumn
+													label='Category'
+													value='category'
+												/>
+												<ExcelColumn
+													label='Distributer'
+													value='distributer'
+												/>
+											</ExcelSheet>
+										</ExcelFile>
+										<br />
+										<ExcelFile
+											element={
+												<button className='dwnload-btn'>
+													Download All Inventory Below
+													Set Threshold
+												</button>
+											}
+											filename={
+												'Bar Inventory Below Threshold ' +
+												date.toDateString()
+											}
+										>
+											<ExcelSheet
+												data={dataSet2}
+												name='Bar Inventory Below Threshold'
+											>
+												<ExcelColumn
+													label='Item'
+													value='item'
+												/>
+												<ExcelColumn
+													label='Quantity Remaining'
+													value='quantity'
+												/>
+												<ExcelColumn
+													label='Category'
+													value='category'
+												/>
+												<ExcelColumn
+													label='Distributer'
+													value='distributer'
+												/>
+											</ExcelSheet>
+										</ExcelFile>
 									</div>
 								</div>
 							</div>

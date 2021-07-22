@@ -289,8 +289,14 @@ hr.dash-line-m {
 	font-size: 18px;
 }
 
-.download-link {
-	margin-left: 10px;
+.dwnload-btn {
+	width: 80%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 38px;
+	letter-spacing: 2px;
 }
 
 /*INVENTORY*/
