@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
 	nameOfItem: { type: String, default: '' },
 	barcode: { type: String, default: '' },
 	distributer: { type: String, default: '' },
-	quantityRemaining: { type: String, default: '' },
+	quantityRemaining: { type: Number, default: 0 },
 	category: { type: String, default: '' },
 	image: { type: String, default: '' },
 });

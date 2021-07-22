@@ -5,15 +5,10 @@ import { Link } from 'react-router-dom';
 import { saveItem, editItem } from '../actions/inventory';
 import Loading from './Loading';
 import bottle from '../images/stock_bottle.png';
-import Slider, { Range } from 'rc-slider';
+import Slider, { SliderTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 function Inventory() {
-	/*****************************************************
-	- add onChange event to slider to show quantity and add to state
-	 
-	******************************************************/
-
 	//set variables
 	const dispatch = useDispatch();
 	const [width, setWidth] = useState(0);
@@ -33,11 +28,13 @@ function Inventory() {
 		),
 	);
 	const [loading, setLoading] = useState(true);
+	const [sliderQuantity, setSliderQuantity] = useState(0);
+	const [bottleQuantity, setBottleQuantity] = useState(0);
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
 		creator: user?.result?.googleId || user?.result?._id,
 		lastUpdated: new Date().toDateString(),
-		quantityRemaining: '',
+		quantityRemaining: 0,
 		category: '',
 		distributer: '',
 		nameOfItem: '',
@@ -103,7 +100,7 @@ function Inventory() {
 	};
 
 	//api barcode lookup
-	let key = '5b2dcf9414984660bc55ab55efb6bcb8';
+	let key = '4d43fce807834d508faa6b95347a3055';
 	const apiLookup = (code) => {
 		const url =
 			'https://mgcorsproxy.herokuapp.com/https://api.apigenius.io/products/lookup?upc=' +
@@ -131,10 +128,29 @@ function Inventory() {
 	setInterval(findBarcode, 4000);
 
 	//slider
+	const { createSliderWithTooltip } = Slider;
+	const Range = createSliderWithTooltip(Slider.Range);
+	const { Handle } = Slider;
+
+	const handle = (props) => {
+		const { value, dragging, index, ...restProps } = props;
+		return (
+			<SliderTooltip
+				prefixCls='rc-slider-tooltip'
+				overlay={`.${value}`}
+				visible={dragging}
+				placement='right'
+				key={index}
+			>
+				<Handle value={value} {...restProps} />
+			</SliderTooltip>
+		);
+	};
 
 	// submit form
 	const saveItemData = (e) => {
 		e.preventDefault();
+
 		if (items.length > 0) {
 			const match = items.filter(
 				(item) => item.barcode === itemData.barcode,
@@ -156,6 +172,8 @@ function Inventory() {
 	};
 
 	console.log('itemData: ', itemData);
+	console.log(bottleQuantity);
+	console.log(sliderQuantity);
 
 	return (
 		<>
@@ -285,10 +303,10 @@ function Inventory() {
 														) : null}
 													</div>
 													<div className='btl-img-div'>
-														<div className='row align-items-center'>
-															<div className='col-6'>
-																{itemData?.image !==
-																'' ? (
+														{itemData?.image !==
+														'' ? (
+															<div className='row align-items-center'>
+																<div className='col-6'>
 																	<img
 																		className='btl-img'
 																		src={
@@ -299,26 +317,53 @@ function Inventory() {
 																		}
 																		alt='Scanned item image'
 																	/>
-																) : null}
-															</div>
-															<div className='col-6'>
-																<Slider
-																	vertical={
-																		true
-																	}
-																	min={0}
-																	max={100}
-																	step={1}
-																	onChange={(
-																		value,
-																	) =>
-																		console.log(
+																</div>
+																<div
+																	className='col-6'
+																	style={{
+																		float: 'left',
+																		width: 160,
+																		height: 400,
+																	}}
+																>
+																	<Slider
+																		vertical
+																		min={0}
+																		max={99}
+																		step={1}
+																		defaultValue={
+																			0
+																		}
+																		handle={
+																			handle
+																		}
+																		onChange={(
 																			value,
-																		)
-																	}
-																/>
+																		) =>
+																			setSliderQuantity(
+																				value,
+																			)
+																		}
+																		railStyle={{
+																			backgroundColor:
+																				'#3a4750',
+																			width: 10,
+																		}}
+																		trackStyle={{
+																			backgroundColor:
+																				'#ea9215',
+																			width: 10,
+																		}}
+																		handleStyle={{
+																			borderColor:
+																				'#3a4750',
+																			height: 20,
+																			width: 20,
+																		}}
+																	/>
+																</div>
 															</div>
-														</div>
+														) : null}
 													</div>
 													{itemData.nameOfItem !==
 													'' ? (
@@ -328,8 +373,37 @@ function Inventory() {
 															}
 														>
 															<p className='quantity'>
-																Quantity:{' '}
-																<b>{''}</b>
+																Slider Quantity:{' '}
+																<b>
+																	{'.' +
+																		sliderQuantity}
+																</b>
+															</p>
+															<label
+																className='quantity'
+																htmlFor='full-bottles'
+															>
+																Full Bottles:
+																{'    '}
+															</label>
+															<input
+																className='bottle-entry'
+																type='text'
+																name='full-bottles'
+																onChange={(e) =>
+																	setBottleQuantity(
+																		e.target
+																			.value,
+																	)
+																}
+															/>
+															<p className='quantity'>
+																Total Quantity:{' '}
+																<b>
+																	{bottleQuantity +
+																		'.' +
+																		sliderQuantity}
+																</b>
 															</p>
 															<p className='threshold-info'>
 																{settings.length ===
@@ -480,6 +554,17 @@ function Inventory() {
 															<button
 																className='save-quantity'
 																type='submit'
+																onClick={() =>
+																	setItemData(
+																		{
+																			...itemData,
+																			quantityRemaining:
+																				bottleQuantity +
+																				'.' +
+																				sliderQuantity,
+																		},
+																	)
+																}
 															>
 																Save This Item
 															</button>
@@ -610,10 +695,9 @@ function Inventory() {
 													) : null}
 												</div>
 												<div className='btl-img-div'>
-													<div className='row align-items-center'>
-														<div className='col-6'>
-															{itemData?.image !==
-															'' ? (
+													{itemData?.image !== '' ? (
+														<div className='row align-items-center'>
+															<div className='col-6'>
 																<img
 																	className='btl-img'
 																	src={
@@ -624,31 +708,90 @@ function Inventory() {
 																	}
 																	alt='Scanned item image'
 																/>
-															) : null}
-														</div>
-														<div className='col-6'>
-															<Slider
-																vertical
-																min={0}
-																max={100}
-																onChange={(
-																	value,
-																) =>
-																	console.log(
+															</div>
+															<div
+																className='col-6'
+																style={{
+																	float: 'left',
+																	width: 160,
+																	height: 400,
+																}}
+															>
+																<Slider
+																	vertical
+																	min={0}
+																	max={99}
+																	step={1}
+																	defaultValue={
+																		0
+																	}
+																	handle={
+																		handle
+																	}
+																	onChange={(
 																		value,
-																	)
-																}
-															/>
+																	) =>
+																		setSliderQuantity(
+																			value,
+																		)
+																	}
+																	railStyle={{
+																		backgroundColor:
+																			'#3a4750',
+																		width: 10,
+																	}}
+																	trackStyle={{
+																		backgroundColor:
+																			'#ea9215',
+																		width: 10,
+																	}}
+																	handleStyle={{
+																		borderColor:
+																			'#3a4750',
+																		height: 20,
+																		width: 20,
+																	}}
+																/>
+															</div>
 														</div>
-													</div>
+													) : null}
 												</div>
 												{itemData.nameOfItem !== '' ? (
 													<form
 														onSubmit={saveItemData}
 													>
 														<p className='quantity'>
-															Quantity:{' '}
-															<b>{''}</b>
+															Slider Quantity:{' '}
+															<b>
+																{'.' +
+																	sliderQuantity}
+															</b>
+														</p>
+														<label
+															className='quantity'
+															htmlFor='full-bottles'
+														>
+															Full Bottles:
+															{'    '}
+														</label>
+														<input
+															className='bottle-entry'
+															type='text'
+															name='full-bottles'
+															onChange={(e) =>
+																setBottleQuantity(
+																	e.target
+																		.value,
+																)
+															}
+														/>
+														<p className='quantity'>
+															Total Quantity:{' '}
+															<b>
+																{bottleQuantity +
+																	'.' +
+																	sliderQuantity}
+															</b>
 														</p>
 														<p className='threshold-info-m'>
 															{settings.length ===
@@ -785,6 +928,15 @@ function Inventory() {
 														<button
 															className='save-quantity-m'
 															type='submit'
+															onClick={() =>
+																setItemData({
+																	...itemData,
+																	quantityRemaining:
+																		bottleQuantity +
+																		'.' +
+																		sliderQuantity,
+																})
+															}
 														>
 															Save This Item
 														</button>

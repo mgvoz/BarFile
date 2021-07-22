@@ -475,6 +475,11 @@ hr.dash-line-m {
 
 .quantity {
 	font-size: 20px;
+	margin-bottom: 5px;
+}
+
+.bottle-entry {
+	margin-left: 3px;
 }
 
 .set-amt {
@@ -486,7 +491,7 @@ hr.dash-line-m {
 }
 
 .btl-img-div {
-	max-width: 90%;
+	max-width: 80%;
 	margin-top: 20px;
 	font-family: var(--secondary-font);
 	color: var(--primary-orange);
