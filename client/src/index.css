@@ -225,7 +225,7 @@ ul {
 	font-family: var(--primary-font);
 	color: var(--primary-gray);
 	margin-left: 10px;
-	margin-top: 2rem;
+	margin-top: 4rem;
 }
 
 hr.dash-line {
@@ -290,12 +290,22 @@ hr.dash-line-m {
 }
 
 .dwnload-btn {
+	width: 50%;
+	background-color: var(--primary-orange);
+	font-family: var(--primary-font);
+	color: #eeeeed;
+	border: solid #eeeeed 2px;
+	height: 60px;
+	letter-spacing: 2px;
+}
+
+.dwnload-btn-m {
 	width: 80%;
 	background-color: var(--primary-orange);
 	font-family: var(--primary-font);
 	color: #eeeeed;
 	border: solid #eeeeed 2px;
-	height: 38px;
+	height: 60px;
 	letter-spacing: 2px;
 }
 

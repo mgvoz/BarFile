@@ -291,7 +291,7 @@ function Dashboard() {
 									<div className='dash-data-m'>
 										<ExcelFile
 											element={
-												<button className='dwnload-btn'>
+												<button className='dwnload-btn-m'>
 													Download All Inventory
 												</button>
 											}
@@ -325,7 +325,7 @@ function Dashboard() {
 										<br />
 										<ExcelFile
 											element={
-												<button className='dwnload-btn'>
+												<button className='dwnload-btn-m'>
 													Download All Inventory Below
 													Set Threshold
 												</button>
