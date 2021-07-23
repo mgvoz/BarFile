@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 import Footer from './components/Footer';
-import Dashboard from './components/Dashboard';
-import Inventory from './components/Inventory';
-import Settings from './components/Settings';
-import ManualEntry from './components/ManualEntry';
+import Dashboard from './components/Dashboard/Dashboard';
+import Inventory from './components/Inventory/Inventory';
+import Settings from './components/Settings/Settings';
+import ManualEntry from './components/Manual Entry/ManualEntry';
 import { getSettings } from './actions/settings';
 import { getItems } from './actions/inventory';
 
