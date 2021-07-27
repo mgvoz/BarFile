@@ -25,9 +25,9 @@ function Inventory() {
 		),
 	);
 	const [loading, setLoading] = useState(true);
-	const [turnGreen, setTurnGreen] = useState('');
 	const [sliderQuantity, setSliderQuantity] = useState(0);
 	const [bottleQuantity, setBottleQuantity] = useState(0);
+	const [successScan, setSuccessScan] = useState(false);
 	const [itemData, setItemData] = useState({
 		nameOfUser: user?.result?.name,
 		creator: user?.result?.googleId || user?.result?._id,
@@ -59,7 +59,11 @@ function Inventory() {
 			.then((stream) => {
 				document.getElementById('video').srcObject = stream;
 			})
-			.catch((error) => console.log(error));
+			.catch(
+				(error) =>
+					(document.getElementById('video-container').innerHTML =
+						'No camera detected. Please enter inventory manually.'),
+			);
 	};
 
 	//scan barcode from live camera stream
@@ -86,8 +90,8 @@ function Inventory() {
 			barcodeDetector
 				.detect(document.getElementById('video'))
 				.then((data) => {
-					if (data.length === 1) {
-						setTurnGreen('border: "2px solid green"');
+					if (data[0]) {
+						setSuccessScan(true);
 						code = data[0].rawValue;
 						apiLookup(code);
 					}
@@ -121,7 +125,12 @@ function Inventory() {
 					barcode: data.items.upc,
 				});
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				alert(
+					'Item not found. Please enter this item manually or try scanning again.',
+				);
+				window.location.reload();
+			});
 	};
 
 	setInterval(findBarcode, 4000);
@@ -168,7 +177,8 @@ function Inventory() {
 							saveItemData={saveItemData}
 							itemData={itemData}
 							setItemData={setItemData}
-							turnGreen={turnGreen}
+							successScan={successScan}
+							setSuccessScan={setSuccessScan}
 						/>
 					) : (
 						<InventoryMobile
@@ -184,7 +194,8 @@ function Inventory() {
 							saveItemData={saveItemData}
 							itemData={itemData}
 							setItemData={setItemData}
-							turnGreen={turnGreen}
+							successScan={successScan}
+							setSuccessScan={setSuccessScan}
 						/>
 					)}
 				</>

@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import { Link } from 'react-router-dom';
 import bottle from '../../images/stock_bottle.png';
+import check from '../../images/check.png';
 import Slider, { SliderTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -19,6 +20,9 @@ function InventoryMobile({
 	itemData,
 	setItemData,
 	turnGreen,
+	setTurnGreen,
+	successScan,
+	setSuccessScan,
 }) {
 	//slider
 	const { createSliderWithTooltip } = Slider;
@@ -84,18 +88,31 @@ function InventoryMobile({
 							) : null}
 							<p className='barcode-p'>Scan barcode:</p>
 							<center>
-								<video
-									id='video'
-									className='video-view'
-									height='300px'
-									width='90%'
-									style={{ turnGreen }}
-									autoPlay
-									playsInline
-									onCanPlay={getVideoStream()}
-								>
-									Video stream not available.
-								</video>
+								<div id='video-container'>
+									{successScan === false ? (
+										<>
+											<video
+												id='video'
+												className='video-view'
+												height='300px'
+												width='90%'
+												autoPlay
+												playsInline
+												onCanPlay={getVideoStream()}
+											/>
+											{itemData.nameOfItem === '' ? (
+												<p className='searching'>
+													(Searching for barcode...)
+												</p>
+											) : null}
+										</>
+									) : (
+										<img
+											src={check}
+											alt='check mark image'
+										/>
+									)}
+								</div>
 								<p className='barcode-p'>Scanned item:</p>
 								<div className='item-info'>
 									<p>
@@ -105,8 +122,8 @@ function InventoryMobile({
 									</p>
 								</div>
 								<button
-									className='clear-scans'
-									onClick={() =>
+									className='clear-scans-m'
+									onClick={() => {
 										setItemData({
 											nameOfUser: user?.result?.name,
 											creator:
@@ -120,8 +137,11 @@ function InventoryMobile({
 											nameOfItem: '',
 											barcode: '',
 											image: '',
-										})
-									}
+										});
+										setBottleQuantity(0);
+										setSliderQuantity(0);
+										setSuccessScan(false);
+									}}
 								>
 									Clear Scanned Item
 								</button>
@@ -139,7 +159,7 @@ function InventoryMobile({
 								<div className='btl-img-div'>
 									{itemData?.image !== '' ? (
 										<div className='row align-items-center'>
-											<div className='col-6'>
+											<div className='col-8'>
 												<img
 													className='btl-img'
 													src={
@@ -152,10 +172,10 @@ function InventoryMobile({
 												/>
 											</div>
 											<div
-												className='col-6'
+												className='col-4'
 												style={{
 													float: 'left',
-													width: 160,
+													width: 90,
 													height: 400,
 												}}
 											>

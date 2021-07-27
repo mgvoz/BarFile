@@ -507,7 +507,7 @@ hr.dash-line-m {
 }
 
 .btl-img-div {
-	max-width: 80%;
+	max-width: 95%;
 	margin-top: 20px;
 	font-family: var(--secondary-font);
 	color: var(--primary-orange);
@@ -516,7 +516,11 @@ hr.dash-line-m {
 
 .btl-img {
 	height: 400px;
-	max-width: 75%;
+	width: auto;
+}
+
+.searching {
+	color: var(--primary-orange);
 }
 
 .inventory-settings {

@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../Navbar/Navbar';
 import { Link } from 'react-router-dom';
 import bottle from '../../images/stock_bottle.png';
+import check from '../../images/check.png';
 import Slider, { SliderTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -18,7 +19,8 @@ function InventoryDesktop({
 	saveItemData,
 	itemData,
 	setItemData,
-	turnGreen,
+	successScan,
+	setSuccessScan,
 }) {
 	//slider
 	const { createSliderWithTooltip } = Slider;
@@ -85,17 +87,31 @@ function InventoryDesktop({
 								) : null}
 								<p className='barcode-p'>Scan barcode:</p>
 								<center>
-									<video
-										id='video'
-										className='video-view'
-										maxHeight='400px'
-										width='30%'
-										style={{ turnGreen }}
-										autoPlay
-										onCanPlay={getVideoStream()}
-									>
-										Video stream not available.
-									</video>
+									<div id='video-container'>
+										{successScan === false ? (
+											<>
+												<video
+													id='video'
+													className='video-view'
+													maxHeight='400px'
+													width='30%'
+													autoPlay
+													onCanPlay={getVideoStream()}
+												/>
+												{itemData.nameOfItem === '' ? (
+													<p className='searching'>
+														(Searching for
+														barcode...)
+													</p>
+												) : null}
+											</>
+										) : (
+											<img
+												src={check}
+												alt='check mark image'
+											/>
+										)}
+									</div>
 									<p className='barcode-p'>Scanned item:</p>
 									<div className='item-info'>
 										<p>
@@ -106,7 +122,7 @@ function InventoryDesktop({
 									</div>
 									<button
 										className='clear-scans'
-										onClick={() =>
+										onClick={() => {
 											setItemData({
 												nameOfUser: user?.result?.name,
 												creator:
@@ -120,8 +136,11 @@ function InventoryDesktop({
 												nameOfItem: '',
 												barcode: '',
 												image: '',
-											})
-										}
+											});
+											setBottleQuantity(0);
+											setSliderQuantity(0);
+											setSuccessScan(false);
+										}}
 									>
 										Clear Scanned Item
 									</button>
@@ -141,7 +160,7 @@ function InventoryDesktop({
 									<div className='btl-img-div'>
 										{itemData?.image !== '' ? (
 											<div className='row align-items-center'>
-												<div className='col-6'>
+												<div className='col-8'>
 													<img
 														className='btl-img'
 														src={
@@ -154,10 +173,10 @@ function InventoryDesktop({
 													/>
 												</div>
 												<div
-													className='col-6'
+													className='col-4'
 													style={{
 														float: 'left',
-														width: 160,
+														width: 90,
 														height: 400,
 													}}
 												>
