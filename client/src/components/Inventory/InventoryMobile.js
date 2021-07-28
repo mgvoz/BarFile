@@ -100,11 +100,9 @@ function InventoryMobile({
 												playsInline
 												onCanPlay={getVideoStream()}
 											/>
-											{itemData.nameOfItem === '' ? (
-												<p className='searching'>
-													(Searching for barcode...)
-												</p>
-											) : null}
+											<p className='searching'>
+												(Searching for barcode...)
+											</p>
 										</>
 									) : (
 										<img
